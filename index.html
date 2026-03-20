@@ -153,13 +153,19 @@
     .dl-moon-wrap { position:absolute; top:6%; right:12%; width:90px; height:90px; }
     .dl-moon-circle { width:90px; height:90px; background:radial-gradient(circle at 35% 35%,#fff,#e8eef5 60%,#c8d8e8); border-radius:50%; box-shadow:0 0 30px 10px rgba(220,235,255,0.35); }
     .dl-moon-shadow { position:absolute; top:-4px; left:12px; width:90px; height:90px; background:#000; border-radius:50%; }
-    .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; z-index:5; padding-bottom:30%; }
+    .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; z-index:5; padding-top:22%; padding-bottom:32%; }
     .dl-arabic { font-family:'Amiri',serif; color:#f5c842; text-shadow:0 0 15px rgba(245,200,66,0.5); }
     .dl-mosque { position:absolute; bottom:0; left:0; right:0; z-index:4; }
     #dl-photo-wrap { display:none; margin-bottom:12px; margin-top:4px; }
     #dl-photo { width:clamp(64px,18vw,88px); height:clamp(64px,18vw,88px); border-radius:50%; object-fit:cover; border:2px solid #f5c842; box-shadow:0 0 18px rgba(245,200,66,0.45); }
+    #dl-family-photo-wrap { display:none; width:82%; margin-top:14px; }
+    #dl-family-photo { width:100%; height:auto; border-radius:10px; object-fit:cover; border:2px solid #f5c842; box-shadow:0 0 18px rgba(245,200,66,0.4); }
     .foto-upload-label { display:inline-flex; align-items:center; gap:6px; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.35); color:#f5c842; font-size:0.82rem; font-weight:600; padding:8px 16px; border-radius:50px; cursor:pointer; transition:background 0.2s; font-family:'Poppins',sans-serif; }
     .foto-upload-label:hover { background:rgba(245,200,66,0.2); }
+    .mode-foto-btn { background:rgba(255,255,255,0.04); border:1px solid rgba(245,200,66,0.2); color:rgba(255,255,255,0.45); font-size:0.78rem; font-weight:600; padding:6px 14px; border-radius:50px; cursor:pointer; transition:all 0.2s; font-family:'Poppins',sans-serif; }
+    .mode-foto-btn.active { background:rgba(245,200,66,0.15); border-color:#f5c842; color:#f5c842; }
+    .scale-btn { background:rgba(255,255,255,0.04); border:1px solid rgba(245,200,66,0.2); color:rgba(255,255,255,0.45); font-size:0.78rem; font-weight:600; padding:6px 14px; border-radius:50px; cursor:pointer; transition:all 0.2s; font-family:'Poppins',sans-serif; }
+    .scale-btn.active { background:rgba(245,200,66,0.15); border-color:#f5c842; color:#f5c842; }
     .btn-dl { background:linear-gradient(135deg,#f5c842,#e8a800); color:#0a0a1a; font-weight:700; padding:14px 40px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Poppins',sans-serif; transition:all 0.3s ease; }
     .btn-dl:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(245,200,66,0.4); }
     .btn-dl:disabled { opacity:0.6; cursor:wait; }
@@ -568,7 +574,11 @@
         </div>
       </div>
       <div style="margin-bottom:20px;">
-        <label class="text-amber-300 text-sm font-medium block mb-2">Foto <span style="color:rgba(255,255,255,0.3);font-weight:400;">(opsional)</span></label>
+        <label class="text-amber-300 text-sm font-medium block mb-3">Foto <span style="color:rgba(255,255,255,0.3);font-weight:400;">(opsional)</span></label>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <button class="mode-foto-btn active" data-mode="personal" onclick="setFotoMode('personal')">👤 Personal</button>
+          <button class="mode-foto-btn" data-mode="keluarga" onclick="setFotoMode('keluarga')">👨‍👩‍👧 Keluarga</button>
+        </div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
           <label for="dl-foto" class="foto-upload-label">📷 Pilih Foto</label>
           <input type="file" id="dl-foto" accept="image/*" style="display:none;" onchange="handleFotoUpload(this)"/>
@@ -583,6 +593,16 @@
       <div style="margin-bottom:24px;">
         <label class="text-amber-300 text-sm font-medium block mb-2">Pesan</label>
         <textarea id="dl-pesan" class="form-input" rows="3" oninput="updateDlCard()">Selamat Hari Raya Idul Fitri 1447 H. Taqabbalallahu Minna Wa Minkum. Minal Aidin Wal Faizin, Mohon Maaf Lahir dan Batin.</textarea>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label class="text-amber-300 text-sm font-medium block mb-3">Resolusi Download</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="scale-options">
+          <button class="scale-btn" data-scale="1" onclick="setScale(1)">SD<span style="font-size:0.65rem;opacity:0.6;display:block;">360px</span></button>
+          <button class="scale-btn" data-scale="2" onclick="setScale(2)">HD<span style="font-size:0.65rem;opacity:0.6;display:block;">720px</span></button>
+          <button class="scale-btn active" data-scale="3" onclick="setScale(3)">FHD<span style="font-size:0.65rem;opacity:0.6;display:block;">1080px</span></button>
+          <button class="scale-btn" data-scale="4" onclick="setScale(4)">2K<span style="font-size:0.65rem;opacity:0.6;display:block;">1440px</span></button>
+          <button class="scale-btn" data-scale="8" onclick="setScale(8)">4K<span style="font-size:0.65rem;opacity:0.6;display:block;">2880px</span></button>
+        </div>
       </div>
       <button class="btn-dl w-full" id="btn-download" onclick="downloadCard()">⬇ Download Kartu Ucapan</button>
     </div>
@@ -611,6 +631,9 @@
             <img id="dl-photo" src="" alt="foto"/>
           </div>
           <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.75rem,3vw,1.2rem);font-weight:700;letter-spacing:0.04em;"></p>
+          <div id="dl-family-photo-wrap">
+            <img id="dl-family-photo" src="" alt="foto keluarga"/>
+          </div>
         </div>
 
         <!-- Border decoration -->
@@ -985,21 +1008,54 @@ function applyDlTheme(name) {
   updateDlCard();
 })();
 
+let dlPhotoDataUrl = null;
+let fotoMode = 'personal';
+let dlScale = 3;
+
+function setScale(s) {
+  dlScale = s;
+  document.querySelectorAll('.scale-btn').forEach(b => b.classList.toggle('active', +b.dataset.scale === s));
+}
+
+function setFotoMode(mode) {
+  fotoMode = mode;
+  document.querySelectorAll('.mode-foto-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  applyFotoToCard();
+}
+
 function handleFotoUpload(input) {
   if (!input.files || !input.files[0]) return;
   const reader = new FileReader();
   reader.onload = function(e) {
-    document.getElementById('dl-photo').src = e.target.result;
-    document.getElementById('dl-photo-wrap').style.display = 'block';
+    dlPhotoDataUrl = e.target.result;
     document.getElementById('dl-foto-name').textContent = input.files[0].name;
     document.getElementById('dl-foto-hapus').style.display = 'inline';
+    applyFotoToCard();
   };
   reader.readAsDataURL(input.files[0]);
 }
 
+function applyFotoToCard() {
+  if (!dlPhotoDataUrl) return;
+  if (fotoMode === 'personal') {
+    document.getElementById('dl-photo').src = dlPhotoDataUrl;
+    document.getElementById('dl-photo-wrap').style.display = 'block';
+    document.getElementById('dl-family-photo').src = '';
+    document.getElementById('dl-family-photo-wrap').style.display = 'none';
+  } else {
+    document.getElementById('dl-family-photo').src = dlPhotoDataUrl;
+    document.getElementById('dl-family-photo-wrap').style.display = 'block';
+    document.getElementById('dl-photo').src = '';
+    document.getElementById('dl-photo-wrap').style.display = 'none';
+  }
+}
+
 function hapusFoto() {
+  dlPhotoDataUrl = null;
   document.getElementById('dl-photo').src = '';
   document.getElementById('dl-photo-wrap').style.display = 'none';
+  document.getElementById('dl-family-photo').src = '';
+  document.getElementById('dl-family-photo-wrap').style.display = 'none';
   document.getElementById('dl-foto').value = '';
   document.getElementById('dl-foto-name').textContent = 'Belum ada foto';
   document.getElementById('dl-foto-hapus').style.display = 'none';
@@ -1018,16 +1074,19 @@ async function downloadCard() {
   btn.disabled = true;
   btn.textContent = 'Memproses...';
   try {
-    // Capture card at its actual rendered size, scaled up to ~1080px wide
     const rect = card.getBoundingClientRect();
-    const scale = Math.round(1080 / rect.width);
-    const canvas = await html2canvas(card, {
-      scale, useCORS: true, allowTaint: true, backgroundColor: null
+    // Render langsung di resolusi target — teks & SVG tetap tajam
+    const out = await html2canvas(card, {
+      scale: dlScale,
+      width:  Math.round(rect.width),
+      height: Math.round(rect.height),
+      useCORS: true, allowTaint: true, backgroundColor: null,
+      logging: false
     });
     const link = document.createElement('a');
     const dari  = document.getElementById('dl-dari').value.trim() || 'ucapan';
-    link.download = `idul-fitri-${dari.replace(/\s+/g,'-')}.png`;
-    link.href = canvas.toDataURL('image/png');
+    link.download = `idul-fitri-${dari.replace(/\s+/g,'-')}-${dlScale}x.png`;
+    link.href = out.toDataURL('image/png', 1.0);
     link.click();
   } catch(e) { alert('Gagal mendownload, coba lagi.'); }
   btn.disabled = false;
