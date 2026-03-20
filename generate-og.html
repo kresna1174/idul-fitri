@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Generate OG Image</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; background: #111; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; font-family: sans-serif; color: #fff; gap: 16px; }
+    canvas { border: 1px solid #333; }
+    button { padding: 12px 28px; background: #f5c842; color: #000; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    p { color: #aaa; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <canvas id="og" width="1200" height="630"></canvas>
+  <button onclick="download()">Download og-image.png</button>
+  <p>Setelah download, upload file <strong>og-image.png</strong> ke root folder VPS kamu</p>
+
+  <script>
+    const canvas = document.getElementById('og');
+    const ctx = canvas.getContext('2d');
+    const W = 1200, H = 630;
+
+    function drawStars() {
+      const stars = [
+        [80,60],[200,40],[350,90],[500,30],[650,70],[800,45],[950,80],[1100,35],[1150,90],
+        [120,150],[300,120],[480,160],[620,100],[750,140],[920,110],[1050,155],
+        [60,200],[240,230],[410,190],[570,220],[730,200],[880,240],[1080,210],
+        [150,280],[330,260],[500,290],[700,270],[860,290],[1020,260],[1160,280],
+        [90,330],[420,310],[610,340],[790,320],[1000,330]
+      ];
+      stars.forEach(([x,y]) => {
+        const r = Math.random() * 1.5 + 0.5;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${Math.random()*0.5+0.4})`;
+        ctx.fill();
+      });
+    }
+
+    function drawMoon(cx, cy) {
+      // Glow
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 90);
+      glow.addColorStop(0, 'rgba(200,220,255,0.35)');
+      glow.addColorStop(1, 'rgba(200,220,255,0)');
+      ctx.beginPath();
+      ctx.arc(cx, cy, 90, 0, Math.PI * 2);
+      ctx.fillStyle = glow;
+      ctx.fill();
+
+      // Moon crescent
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, 52, 0, Math.PI * 2);
+      const moonGrad = ctx.createRadialGradient(cx - 12, cy - 12, 5, cx, cy, 52);
+      moonGrad.addColorStop(0, '#ffffff');
+      moonGrad.addColorStop(0.6, '#e8eef5');
+      moonGrad.addColorStop(1, '#c8d8e8');
+      ctx.fillStyle = moonGrad;
+      ctx.fill();
+
+      // Shadow circle to make crescent
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(cx + 18, cy - 8, 45, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,1)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawMosque() {
+      ctx.save();
+      ctx.fillStyle = '#000000';
+
+      // Ground bar
+      ctx.fillRect(0, H - 60, W, 60);
+
+      // Main structure
+      ctx.fillRect(W/2 - 200, H - 200, 400, 140);
+
+      // Main dome
+      ctx.beginPath();
+      ctx.ellipse(W/2, H - 200, 130, 110, 0, Math.PI, 0);
+      ctx.fill();
+
+      // Minaret left
+      ctx.fillRect(W/2 - 310, H - 280, 50, 220);
+      ctx.beginPath();
+      ctx.moveTo(W/2 - 310, H - 280);
+      ctx.lineTo(W/2 - 285, H - 340);
+      ctx.lineTo(W/2 - 260, H - 280);
+      ctx.fill();
+
+      // Minaret right
+      ctx.fillRect(W/2 + 260, H - 280, 50, 220);
+      ctx.beginPath();
+      ctx.moveTo(W/2 + 260, H - 280);
+      ctx.lineTo(W/2 + 285, H - 340);
+      ctx.lineTo(W/2 + 310, H - 280);
+      ctx.fill();
+
+      // Small domes
+      ctx.beginPath();
+      ctx.ellipse(W/2 - 150, H - 200, 55, 45, 0, Math.PI, 0);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(W/2 + 150, H - 200, 55, 45, 0, Math.PI, 0);
+      ctx.fill();
+
+      // Arched windows
+      for (let i = -2; i <= 2; i++) {
+        ctx.beginPath();
+        ctx.arc(W/2 + i * 75, H - 110, 18, Math.PI, 0);
+        ctx.rect(W/2 + i * 75 - 18, H - 110, 36, 30);
+        ctx.fillStyle = '#1a0d30';
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function draw() {
+      // Sky gradient background
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+      skyGrad.addColorStop(0, '#020817');
+      skyGrad.addColorStop(0.4, '#0d1b40');
+      skyGrad.addColorStop(0.7, '#1a1440');
+      skyGrad.addColorStop(0.85, '#2d1b4e');
+      skyGrad.addColorStop(1, '#1a0a2e');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      drawStars();
+      drawMoon(980, 130);
+      drawMosque();
+
+      // Overlay gradient to blend text area
+      const overlay = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+      overlay.addColorStop(0, 'rgba(2,8,23,0)');
+      overlay.addColorStop(1, 'rgba(13,27,64,0.15)');
+      ctx.fillStyle = overlay;
+      ctx.fillRect(0, 0, W, H * 0.75);
+
+      // Arabic text
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#f5c842';
+      ctx.font = '500 52px Amiri, serif';
+      ctx.fillText('بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ', W / 2, 130);
+
+      // Gold divider
+      ctx.strokeStyle = '#f5c842';
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.4;
+      ctx.beginPath();
+      ctx.moveTo(W/2 - 220, 150);
+      ctx.lineTo(W/2 + 220, 150);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      // Main title
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 82px Poppins, sans-serif';
+      ctx.fillText('Selamat Idul Fitri', W / 2, 250);
+
+      // Year
+      ctx.fillStyle = '#f5c842';
+      ctx.font = '300 52px Poppins, sans-serif';
+      ctx.letterSpacing = '8px';
+      ctx.fillText('1 4 4 7  H', W / 2, 318);
+      ctx.letterSpacing = '0';
+
+      // Taqabbal
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.font = '400 28px Poppins, sans-serif';
+      ctx.fillText('Taqabbalallahu Minna wa Minkum', W / 2, 378);
+
+      // Gold decorative line
+      ctx.strokeStyle = '#f5c842';
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.35;
+      ctx.beginPath();
+      ctx.moveTo(W/2 - 280, 405);
+      ctx.lineTo(W/2 + 280, 405);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      // URL
+      ctx.fillStyle = 'rgba(245,200,66,0.65)';
+      ctx.font = '300 20px Poppins, sans-serif';
+      ctx.fillText('idul-fitri.zerohero.my.id', W / 2, 445);
+    }
+
+    // Wait for fonts to load
+    document.fonts.ready.then(() => {
+      draw();
+    });
+
+    function download() {
+      const a = document.createElement('a');
+      a.download = 'og-image.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+  </script>
+</body>
+</html>
