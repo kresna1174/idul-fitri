@@ -156,6 +156,10 @@
     .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; z-index:5; padding-bottom:30%; }
     .dl-arabic { font-family:'Amiri',serif; color:#f5c842; text-shadow:0 0 15px rgba(245,200,66,0.5); }
     .dl-mosque { position:absolute; bottom:0; left:0; right:0; z-index:4; }
+    #dl-photo-wrap { display:none; margin-bottom:12px; margin-top:4px; }
+    #dl-photo { width:clamp(64px,18vw,88px); height:clamp(64px,18vw,88px); border-radius:50%; object-fit:cover; border:2px solid #f5c842; box-shadow:0 0 18px rgba(245,200,66,0.45); }
+    .foto-upload-label { display:inline-flex; align-items:center; gap:6px; background:rgba(245,200,66,0.1); border:1px solid rgba(245,200,66,0.35); color:#f5c842; font-size:0.82rem; font-weight:600; padding:8px 16px; border-radius:50px; cursor:pointer; transition:background 0.2s; font-family:'Poppins',sans-serif; }
+    .foto-upload-label:hover { background:rgba(245,200,66,0.2); }
     .btn-dl { background:linear-gradient(135deg,#f5c842,#e8a800); color:#0a0a1a; font-weight:700; padding:14px 40px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Poppins',sans-serif; transition:all 0.3s ease; }
     .btn-dl:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(245,200,66,0.4); }
     .btn-dl:disabled { opacity:0.6; cursor:wait; }
@@ -563,6 +567,15 @@
           <div class="theme-swatch"        data-theme="merah"  data-label="Merah"  style="background:linear-gradient(135deg,#3d0505,#8b1a1a);" onclick="applyDlTheme('merah')"></div>
         </div>
       </div>
+      <div style="margin-bottom:20px;">
+        <label class="text-amber-300 text-sm font-medium block mb-2">Foto <span style="color:rgba(255,255,255,0.3);font-weight:400;">(opsional)</span></label>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <label for="dl-foto" class="foto-upload-label">📷 Pilih Foto</label>
+          <input type="file" id="dl-foto" accept="image/*" style="display:none;" onchange="handleFotoUpload(this)"/>
+          <span id="dl-foto-name" style="color:rgba(255,255,255,0.35);font-size:0.78rem;">Belum ada foto</span>
+          <button id="dl-foto-hapus" onclick="hapusFoto()" style="display:none;background:none;border:none;color:rgba(255,90,90,0.7);cursor:pointer;font-size:0.8rem;font-family:'Poppins',sans-serif;">✕ Hapus</button>
+        </div>
+      </div>
       <div style="margin-bottom:16px;">
         <label class="text-amber-300 text-sm font-medium block mb-2">Dari</label>
         <input type="text" id="dl-dari" class="form-input" placeholder="Nama kamu..." oninput="updateDlCard()" />
@@ -590,10 +603,13 @@
         <!-- Text overlay -->
         <div class="dl-text-wrap">
           <p class="dl-arabic" id="dl-arabic" style="font-size:clamp(1rem,4.5vw,2.2rem);margin-bottom:10px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
-          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.95rem,4vw,2rem);margin-bottom:8px;text-align:center;">Selamat Hari Raya Idul Fitri <span id="dl-title-accent" style="color:#f5c842;">1447 H</span></h2>
+          <h2 style="color:rgba(220,235,255,0.75);font-weight:700;font-size:clamp(0.95rem,4vw,2rem);margin-bottom:8px;text-align:center;">Selamat Hari Raya Idul Fitri <span id="dl-title-accent" style="color:#f5c842;">1447 H</span></h2>
           <p id="dl-subtitle" style="color:#f5c842;font-size:clamp(0.65rem,2.5vw,1rem);margin-bottom:20px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
           <div id="dl-divider" style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:20px;"></div>
           <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.6rem,2.2vw,0.95rem);text-align:center;max-width:80%;line-height:1.7;margin-bottom:18px;"></p>
+          <div id="dl-photo-wrap">
+            <img id="dl-photo" src="" alt="foto"/>
+          </div>
           <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.75rem,3vw,1.2rem);font-weight:700;letter-spacing:0.04em;"></p>
         </div>
 
@@ -968,6 +984,26 @@ function applyDlTheme(name) {
   }
   updateDlCard();
 })();
+
+function handleFotoUpload(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('dl-photo').src = e.target.result;
+    document.getElementById('dl-photo-wrap').style.display = 'block';
+    document.getElementById('dl-foto-name').textContent = input.files[0].name;
+    document.getElementById('dl-foto-hapus').style.display = 'inline';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function hapusFoto() {
+  document.getElementById('dl-photo').src = '';
+  document.getElementById('dl-photo-wrap').style.display = 'none';
+  document.getElementById('dl-foto').value = '';
+  document.getElementById('dl-foto-name').textContent = 'Belum ada foto';
+  document.getElementById('dl-foto-hapus').style.display = 'none';
+}
 
 function updateDlCard() {
   const dari  = document.getElementById('dl-dari').value.trim();
