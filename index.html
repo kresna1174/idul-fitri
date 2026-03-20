@@ -147,13 +147,13 @@
     }
 
     /* Download card */
-    #dl-card-wrap { width:100%; aspect-ratio:16/9; position:relative; overflow:hidden; border-radius:16px; border:1px solid rgba(245,200,66,0.3); }
+    #dl-card-wrap { width:100%; max-width:360px; margin:0 auto; aspect-ratio:9/16; position:relative; overflow:hidden; border-radius:16px; border:2px solid rgba(245,200,66,0.55); box-shadow:0 0 24px rgba(245,200,66,0.18), inset 0 0 24px rgba(245,200,66,0.06); }
     #dl-card { width:100%; height:100%; position:relative; background:linear-gradient(180deg,#020817 0%,#0d1b40 40%,#1a1440 70%,#2d1b4e 100%); overflow:hidden; font-family:'Poppins',sans-serif; }
     .dl-star { position:absolute; border-radius:50%; background:rgba(255,255,220,0.85); pointer-events:none; }
-    .dl-moon-wrap { position:absolute; top:8%; right:10%; width:80px; height:80px; }
-    .dl-moon-circle { width:80px; height:80px; background:radial-gradient(circle at 35% 35%,#fff,#e8eef5 60%,#c8d8e8); border-radius:50%; box-shadow:0 0 30px 10px rgba(220,235,255,0.35); }
-    .dl-moon-shadow { position:absolute; top:-4px; left:11px; width:80px; height:80px; background:#000; border-radius:50%; }
-    .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; z-index:5; }
+    .dl-moon-wrap { position:absolute; top:6%; right:12%; width:90px; height:90px; }
+    .dl-moon-circle { width:90px; height:90px; background:radial-gradient(circle at 35% 35%,#fff,#e8eef5 60%,#c8d8e8); border-radius:50%; box-shadow:0 0 30px 10px rgba(220,235,255,0.35); }
+    .dl-moon-shadow { position:absolute; top:-4px; left:12px; width:90px; height:90px; background:#000; border-radius:50%; }
+    .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px; z-index:5; padding-bottom:30%; }
     .dl-arabic { font-family:'Amiri',serif; color:#f5c842; text-shadow:0 0 15px rgba(245,200,66,0.5); }
     .dl-mosque { position:absolute; bottom:0; left:0; right:0; z-index:4; }
     .btn-dl { background:linear-gradient(135deg,#f5c842,#e8a800); color:#0a0a1a; font-weight:700; padding:14px 40px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Poppins',sans-serif; transition:all 0.3s ease; }
@@ -589,13 +589,45 @@
 
         <!-- Text overlay -->
         <div class="dl-text-wrap">
-          <p class="dl-arabic" id="dl-arabic" style="font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
-          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;text-align:center;">Selamat Hari Raya Idul Fitri <span id="dl-title-accent" style="color:#f5c842;">1447 H</span></h2>
-          <p id="dl-subtitle" style="color:rgba(255,220,150,0.9);font-size:clamp(0.6rem,1.8vw,1rem);margin-bottom:16px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
-          <div id="dl-divider" style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:16px;"></div>
-          <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.55rem,1.5vw,0.9rem);text-align:center;max-width:70%;line-height:1.6;margin-bottom:14px;"></p>
-          <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.7rem,2vw,1.1rem);font-weight:700;letter-spacing:0.04em;"></p>
+          <p class="dl-arabic" id="dl-arabic" style="font-size:clamp(1rem,4.5vw,2.2rem);margin-bottom:10px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
+          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.95rem,4vw,2rem);margin-bottom:8px;text-align:center;">Selamat Hari Raya Idul Fitri <span id="dl-title-accent" style="color:#f5c842;">1447 H</span></h2>
+          <p id="dl-subtitle" style="color:#f5c842;font-size:clamp(0.65rem,2.5vw,1rem);margin-bottom:20px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
+          <div id="dl-divider" style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:20px;"></div>
+          <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.6rem,2.2vw,0.95rem);text-align:center;max-width:80%;line-height:1.7;margin-bottom:18px;"></p>
+          <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.75rem,3vw,1.2rem);font-weight:700;letter-spacing:0.04em;"></p>
         </div>
+
+        <!-- Border decoration -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="dot-glow">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Border: 4 curved lines, each side bows slightly inward -->
+          <!-- Top -->
+          <path d="M 60,28 Q 450,52 840,28" fill="none" stroke="#f5c842" stroke-width="2.5" opacity="0.6"/>
+          <!-- Bottom -->
+          <path d="M 60,1572 Q 450,1548 840,1572" fill="none" stroke="#f5c842" stroke-width="2.5" opacity="0.6"/>
+          <!-- Left -->
+          <path d="M 28,60 Q 52,800 28,1540" fill="none" stroke="#f5c842" stroke-width="2.5" opacity="0.6"/>
+          <!-- Right -->
+          <path d="M 872,60 Q 848,800 872,1540" fill="none" stroke="#f5c842" stroke-width="2.5" opacity="0.6"/>
+          <!-- Corner dots with glow -->
+          <!-- TL -->
+          <circle cx="60" cy="28" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <circle cx="28" cy="60" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <!-- TR -->
+          <circle cx="840" cy="28" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <circle cx="872" cy="60" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <!-- BL -->
+          <circle cx="60" cy="1572" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <circle cx="28" cy="1540" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <!-- BR -->
+          <circle cx="840" cy="1572" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+          <circle cx="872" cy="1540" r="7" fill="#f5c842" opacity="0.95" filter="url(#dot-glow)"/>
+        </svg>
 
         <!-- Mosque -->
         <div class="dl-mosque">
@@ -916,7 +948,7 @@ function applyDlTheme(name) {
   document.getElementById('dl-arabic').style.color = t.accent;
   document.getElementById('dl-arabic').style.textShadow = `0 0 15px ${t.accent}80`;
   document.getElementById('dl-title-accent').style.color = t.accent;
-  document.getElementById('dl-subtitle').style.color = `rgba(${t.accentRgb},0.85)`;
+  // dl-subtitle intentionally kept gold across all themes
   document.getElementById('dl-divider').style.background = `linear-gradient(90deg,transparent,rgba(${t.accentRgb},0.5),transparent)`;
   document.getElementById('dl-dari-preview').style.color = t.accent;
   document.querySelector('#dl-card .dl-moon-shadow').style.background = t.moonShadow;
@@ -950,16 +982,12 @@ async function downloadCard() {
   btn.disabled = true;
   btn.textContent = 'Memproses...';
   try {
-    // Temporarily set card to fixed size for capture
-    const origW = card.style.width, origH = card.style.height;
-    card.style.width  = '1080px';
-    card.style.height = '607px';
+    // Capture card at its actual rendered size, scaled up to ~1080px wide
+    const rect = card.getBoundingClientRect();
+    const scale = Math.round(1080 / rect.width);
     const canvas = await html2canvas(card, {
-      scale: 2, useCORS: true, allowTaint: true,
-      width: 1080, height: 607, backgroundColor: null
+      scale, useCORS: true, allowTaint: true, backgroundColor: null
     });
-    card.style.width = origW;
-    card.style.height = origH;
     const link = document.createElement('a');
     const dari  = document.getElementById('dl-dari').value.trim() || 'ucapan';
     link.download = `idul-fitri-${dari.replace(/\s+/g,'-')}.png`;
