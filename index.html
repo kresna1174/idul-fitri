@@ -31,8 +31,6 @@
     /* Moon tint (orange sore hari) */
     #moon-tint { position: absolute; inset: 0; border-radius: 50%; background: rgba(210,80,10,0.8); z-index: 3; pointer-events: none; }
 
-    /* Fireworks canvas */
-    #fireworks-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; pointer-events: none; }
 
     /* ===================== HERO ===================== */
     #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
@@ -161,6 +159,10 @@
     .btn-dl { background:linear-gradient(135deg,#f5c842,#e8a800); color:#0a0a1a; font-weight:700; padding:14px 40px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Poppins',sans-serif; transition:all 0.3s ease; }
     .btn-dl:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(245,200,66,0.4); }
     .btn-dl:disabled { opacity:0.6; cursor:wait; }
+    .theme-swatch { width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.15); cursor:pointer; transition:all 0.2s; flex-shrink:0; position:relative; }
+    .theme-swatch:hover { transform:scale(1.15); }
+    .theme-swatch.active { border-color:#f5c842; box-shadow:0 0 0 3px rgba(245,200,66,0.35); transform:scale(1.15); }
+    .theme-swatch::after { content:attr(data-label); position:absolute; bottom:-20px; left:50%; transform:translateX(-50%); font-size:0.6rem; color:rgba(255,255,255,0.5); white-space:nowrap; font-family:'Poppins',sans-serif; }
 
     /* Ripple */
     .ripple { position: fixed; border-radius: 50%; border: 2px solid rgba(245,200,66,0.6); pointer-events: none; z-index: 999; animation: rippleOut 0.8s ease-out forwards; }
@@ -176,8 +178,6 @@
 <!-- Starfield Canvas -->
 <canvas id="stars-canvas"></canvas>
 
-<!-- Fireworks Canvas -->
-<canvas id="fireworks-canvas"></canvas>
 
 <!-- ==================== HERO ==================== -->
 <section id="hero">
@@ -551,6 +551,18 @@
 
     <!-- Form -->
     <div class="reveal" style="background:rgba(255,255,255,0.02);border:1px solid rgba(245,200,66,0.15);border-radius:24px;padding:32px;margin-bottom:32px;">
+      <!-- Theme picker -->
+      <div style="margin-bottom:28px;">
+        <label class="text-amber-300 text-sm font-medium block mb-4">Tema</label>
+        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding-bottom:24px;">
+          <div class="theme-swatch active" data-theme="malam"  data-label="Malam"  style="background:linear-gradient(135deg,#0d1b40,#2d1b4e);" onclick="applyDlTheme('malam')"></div>
+          <div class="theme-swatch"        data-theme="senja"  data-label="Senja"  style="background:linear-gradient(135deg,#7a2e0a,#c45520);" onclick="applyDlTheme('senja')"></div>
+          <div class="theme-swatch"        data-theme="zamrud" data-label="Zamrud" style="background:linear-gradient(135deg,#0a3d1a,#1a6b3a);" onclick="applyDlTheme('zamrud')"></div>
+          <div class="theme-swatch"        data-theme="langit" data-label="Langit" style="background:linear-gradient(135deg,#0a1535,#1a4080);" onclick="applyDlTheme('langit')"></div>
+          <div class="theme-swatch"        data-theme="ungu"   data-label="Ungu"   style="background:linear-gradient(135deg,#2d0a4a,#6b1a9e);" onclick="applyDlTheme('ungu')"></div>
+          <div class="theme-swatch"        data-theme="merah"  data-label="Merah"  style="background:linear-gradient(135deg,#3d0505,#8b1a1a);" onclick="applyDlTheme('merah')"></div>
+        </div>
+      </div>
       <div style="margin-bottom:16px;">
         <label class="text-amber-300 text-sm font-medium block mb-2">Dari</label>
         <input type="text" id="dl-dari" class="form-input" placeholder="Nama kamu..." oninput="updateDlCard()" />
@@ -577,10 +589,10 @@
 
         <!-- Text overlay -->
         <div class="dl-text-wrap">
-          <p class="dl-arabic" style="font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
-          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;text-align:center;">Selamat Hari Raya Idul Fitri <span style="color:#f5c842;">1447 H</span></h2>
-          <p style="color:rgba(255,220,150,0.9);font-size:clamp(0.6rem,1.8vw,1rem);margin-bottom:16px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
-          <div style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:16px;"></div>
+          <p class="dl-arabic" id="dl-arabic" style="font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
+          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;text-align:center;">Selamat Hari Raya Idul Fitri <span id="dl-title-accent" style="color:#f5c842;">1447 H</span></h2>
+          <p id="dl-subtitle" style="color:rgba(255,220,150,0.9);font-size:clamp(0.6rem,1.8vw,1rem);margin-bottom:16px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
+          <div id="dl-divider" style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:16px;"></div>
           <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.55rem,1.5vw,0.9rem);text-align:center;max-width:70%;line-height:1.6;margin-bottom:14px;"></p>
           <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.7rem,2vw,1.1rem);font-weight:700;letter-spacing:0.04em;"></p>
         </div>
@@ -766,174 +778,6 @@ document.addEventListener('click', e => {
   setTimeout(() => r.remove(), 900);
 });
 
-// ========== FIREWORKS (Full Rewrite — Rockets + 5 Burst Types + Trails) ==========
-const fwCanvas = document.getElementById('fireworks-canvas');
-const fwCtx = fwCanvas.getContext('2d');
-fwCanvas.width = window.innerWidth; fwCanvas.height = window.innerHeight;
-window.addEventListener('resize', () => { fwCanvas.width = window.innerWidth; fwCanvas.height = window.innerHeight; });
-
-const FW_PALETTES = [
-  ['255,200,66','255,241,118','255,215,0'],
-  ['255,107,53','255,143,101','255,179,71'],
-  ['224,64,251','206,147,216','248,187,208'],
-  ['38,166,154','128,203,196','178,223,219'],
-  ['239,83,80','239,154,154','255,205,210'],
-  ['66,165,245','144,202,249','187,222,251'],
-  ['255,255,255','245,245,245','180,220,255'],
-  ['102,187,106','165,214,167','200,230,201'],
-];
-
-class FWRocket {
-  constructor(tx, ty) {
-    this.x = tx + (Math.random()-0.5)*80;
-    this.y = fwCanvas.height + 5;
-    this.tx = tx; this.ty = ty;
-    const dx=this.tx-this.x, dy=this.ty-this.y;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    const spd=15+Math.random()*7;
-    this.vx=(dx/dist)*spd; this.vy=(dy/dist)*spd;
-    this.trail=[]; this.exploded=false;
-    this.pal=FW_PALETTES[Math.floor(Math.random()*FW_PALETTES.length)];
-    this.type=Math.floor(Math.random()*5);
-  }
-  update() {
-    this.trail.push({x:this.x,y:this.y});
-    if(this.trail.length>20) this.trail.shift();
-    this.x+=this.vx; this.y+=this.vy; this.vy+=0.22;
-    if(this.vy>=0||this.y<=this.ty){ this.exploded=true; fwBurst(this.x,this.y,this.pal,this.type); }
-  }
-  draw() {
-    for(let i=0;i<this.trail.length-1;i++){
-      const a=(i/this.trail.length)*0.9;
-      fwCtx.beginPath(); fwCtx.moveTo(this.trail[i].x,this.trail[i].y); fwCtx.lineTo(this.trail[i+1].x,this.trail[i+1].y);
-      fwCtx.strokeStyle=`rgba(255,200,100,${a})`; fwCtx.lineWidth=2.5; fwCtx.lineCap='round'; fwCtx.stroke();
-    }
-    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,3.5,0,Math.PI*2);
-    fwCtx.fillStyle='rgba(255,255,220,0.95)'; fwCtx.fill();
-  }
-}
-
-class FWParticle {
-  constructor(x,y,vx,vy,color,r,ptype){
-    this.x=x; this.y=y; this.vx=vx; this.vy=vy;
-    this.color=color; this.r=r; this.life=1; this.ptype=ptype;
-    this.decay=ptype==='willow'?0.005+Math.random()*.007:ptype==='glitter'?0.022+Math.random()*.025:0.009+Math.random()*.011;
-    this.trail=[{x,y}]; this.maxTrail=ptype==='willow'?24:ptype==='normal'?10:4;
-    this.doTwinkle=Math.random()<0.4; this.twinkle=Math.random()*Math.PI*2; this.twinkleSpd=Math.random()*.3+.1;
-  }
-  update(){
-    this.trail.push({x:this.x,y:this.y});
-    if(this.trail.length>this.maxTrail) this.trail.shift();
-    this.x+=this.vx; this.y+=this.vy;
-    this.vy+=this.ptype==='willow'?0.14:0.09;
-    this.vx*=0.984; this.vy*=0.984;
-    this.life-=this.decay; this.twinkle+=this.twinkleSpd;
-  }
-  draw(){
-    const tw=this.doTwinkle?0.5+0.5*Math.sin(this.twinkle):1;
-    const a=this.life*tw; if(a<=0.01) return;
-    const col=this.color;
-    for(let i=0;i<this.trail.length-1;i++){
-      const ta=(i/this.trail.length)*a*0.7;
-      const tw2=(i/this.trail.length)*this.r*1.8;
-      fwCtx.beginPath(); fwCtx.moveTo(this.trail[i].x,this.trail[i].y); fwCtx.lineTo(this.trail[i+1].x,this.trail[i+1].y);
-      fwCtx.strokeStyle=col.replace(',1)',`,${ta})`); fwCtx.lineWidth=Math.max(0.4,tw2); fwCtx.lineCap='round'; fwCtx.stroke();
-    }
-    const grd=fwCtx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*4);
-    grd.addColorStop(0,col.replace(',1)',`,${a})`));
-    grd.addColorStop(0.5,col.replace(',1)',`,${a*.4})`));
-    grd.addColorStop(1,'rgba(0,0,0,0)');
-    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,this.r*4,0,Math.PI*2); fwCtx.fillStyle=grd; fwCtx.fill();
-    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,this.r,0,Math.PI*2);
-    fwCtx.fillStyle=`rgba(255,255,255,${a*.9})`; fwCtx.fill();
-  }
-}
-
-let fwRockets=[], fwParticles=[], fwFlashes=[];
-function fwBurst(x,y,pal,type){
-  fwFlashes.push({x,y,r:0,maxR:110+Math.random()*90,life:1,col:pal[0]});
-  if(type===0){ // Classic sphere
-    for(let i=0;i<170;i++){
-      const a=Math.random()*Math.PI*2, s=Math.random()*6+2;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2.5+1,'normal'));
-    }
-  } else if(type===1){ // Ring + inner glitter
-    for(let i=0;i<110;i++){
-      const a=(i/110)*Math.PI*2, s=7.5+Math.random()*2.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2+1,'ring'));
-    }
-    for(let i=0;i<70;i++){
-      const a=(i/70)*Math.PI*2, s=3.5+Math.random()*1.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[0]},1)`,1,'glitter'));
-    }
-  } else if(type===2){ // Willow (droopy long trails)
-    for(let i=0;i<200;i++){
-      const a=Math.random()*Math.PI*2, s=Math.random()*9+2;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,(Math.sin(a)*s)-2.5,`rgba(${pal[i%pal.length]},1)`,Math.random()*1.5+.5,'willow'));
-    }
-  } else if(type===3){ // Chrysanthemum — dense + glitter rain
-    for(let i=0;i<210;i++){
-      const a=(i/210)*Math.PI*2+Math.random()*.3, s=2+Math.random()*6.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2+.5,'normal'));
-    }
-    for(let i=0;i<90;i++){
-      const a=Math.random()*Math.PI*2, s=Math.random()*10;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,'rgba(255,255,200,1)',1.5,'glitter'));
-    }
-  } else { // Double ring burst
-    for(let i=0;i<130;i++){
-      const a=(i/130)*Math.PI*2, s=9+Math.random()*1.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[0]},1)`,Math.random()*2+1,'normal'));
-    }
-    for(let i=0;i<90;i++){
-      const a=(i/90)*Math.PI*2, s=4.5+Math.random()*1.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[1%pal.length]},1)`,Math.random()*1.5+.5,'glitter'));
-    }
-    for(let i=0;i<50;i++){
-      const a=Math.random()*Math.PI*2, s=Math.random()*3.5;
-      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,'rgba(255,255,255,1)',1.2,'glitter'));
-    }
-  }
-}
-
-function spawnFirework(x, y){ fwRockets.push(new FWRocket(x, y)); }
-
-function animateFW(){
-  fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);
-  fwFlashes=fwFlashes.filter(f=>f.life>0);
-  fwFlashes.forEach(f=>{
-    f.r+=(f.maxR-f.r)*.28; f.life-=0.07;
-    const g=fwCtx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r);
-    g.addColorStop(0,`rgba(255,255,255,${f.life*.75})`);
-    g.addColorStop(0.3,`rgba(${f.col},${f.life*.35})`);
-    g.addColorStop(1,'rgba(0,0,0,0)');
-    fwCtx.beginPath(); fwCtx.arc(f.x,f.y,f.r,0,Math.PI*2); fwCtx.fillStyle=g; fwCtx.fill();
-  });
-  fwRockets=fwRockets.filter(r=>!r.exploded);
-  fwRockets.forEach(r=>{ r.update(); if(!r.exploded) r.draw(); });
-  fwParticles=fwParticles.filter(p=>p.life>0);
-  fwParticles.forEach(p=>{ p.update(); p.draw(); });
-  requestAnimationFrame(animateFW);
-}
-animateFW();
-
-function autoFirework(){
-  const n=Math.floor(Math.random()*4)+2;
-  for(let i=0;i<n;i++) setTimeout(()=>{
-    spawnFirework(Math.random()*window.innerWidth*.75+window.innerWidth*.125, Math.random()*window.innerHeight*.48+window.innerHeight*.04);
-  }, i*380+Math.random()*220);
-}
-// Meriah di 3 detik pertama saja
-setTimeout(()=>autoFirework(), 500);
-setTimeout(()=>autoFirework(), 1200);
-setTimeout(()=>autoFirework(), 2000);
-setTimeout(()=>autoFirework(), 2800);
-
-// Klik hanya aktif kalau di hero (scroll = 0)
-document.addEventListener('click', e=>{
-  if(window.scrollY > window.innerHeight * 0.5) return;
-  if(!e.target.closest('input,textarea,button,a')) spawnFirework(e.clientX, e.clientY);
-});
 
 // ========== FLOATING PARTICLES ==========
 const fpColors = ['rgba(245,200,66,0.7)','rgba(255,107,53,0.6)','rgba(255,255,255,0.5)','rgba(156,39,176,0.5)'];
@@ -1035,8 +879,6 @@ function generateCard() {
   const card = document.getElementById('preview-card');
   card.style.display = 'block';
   card.scrollIntoView({behavior:'smooth', block:'nearest'});
-  // Confetti burst
-  for(let i=0;i<5;i++) setTimeout(() => spawnFirework(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.8), i*200);
 }
 
 function shareCard() {
@@ -1055,6 +897,31 @@ function shareCard() {
 
 // ========== HIDE CURSOR ON TOUCH ==========
 window.addEventListener('touchstart', () => { cursor.style.display='none'; cursorDot.style.display='none'; }, {once:true});
+
+// ========== DOWNLOAD CARD THEMES ==========
+const DL_THEMES = {
+  malam:  { bg:'linear-gradient(180deg,#020817 0%,#0d1b40 40%,#1a1440 70%,#2d1b4e 100%)', accent:'#f5c842', accentRgb:'245,200,66',  moonShadow:'#020817' },
+  senja:  { bg:'linear-gradient(180deg,#1a0500 0%,#5a1a05 30%,#a03010 60%,#c04828 100%)', accent:'#ffb347', accentRgb:'255,179,71',  moonShadow:'#3d0a00' },
+  zamrud: { bg:'linear-gradient(180deg,#001a08 0%,#0a3d1a 35%,#1a5e30 70%,#0d3d20 100%)', accent:'#4ade80', accentRgb:'74,222,128',  moonShadow:'#001a08' },
+  langit: { bg:'linear-gradient(180deg,#020817 0%,#0a1535 40%,#152550 70%,#1a4080 100%)', accent:'#93c5fd', accentRgb:'147,197,253', moonShadow:'#020817' },
+  ungu:   { bg:'linear-gradient(180deg,#0d0020 0%,#2d0a4a 40%,#4a1a6b 70%,#3d1050 100%)', accent:'#c084fc', accentRgb:'192,132,252', moonShadow:'#0d0020' },
+  merah:  { bg:'linear-gradient(180deg,#1a0000 0%,#4a0a0a 35%,#7a1515 70%,#5a0808 100%)', accent:'#fca5a5', accentRgb:'252,165,165', moonShadow:'#1a0000' },
+};
+let currentDlTheme = 'malam';
+
+function applyDlTheme(name) {
+  currentDlTheme = name;
+  const t = DL_THEMES[name];
+  document.getElementById('dl-card').style.background = t.bg;
+  document.getElementById('dl-arabic').style.color = t.accent;
+  document.getElementById('dl-arabic').style.textShadow = `0 0 15px ${t.accent}80`;
+  document.getElementById('dl-title-accent').style.color = t.accent;
+  document.getElementById('dl-subtitle').style.color = `rgba(${t.accentRgb},0.85)`;
+  document.getElementById('dl-divider').style.background = `linear-gradient(90deg,transparent,rgba(${t.accentRgb},0.5),transparent)`;
+  document.getElementById('dl-dari-preview').style.color = t.accent;
+  document.querySelector('#dl-card .dl-moon-shadow').style.background = t.moonShadow;
+  document.querySelectorAll('.theme-swatch').forEach(s => s.classList.toggle('active', s.dataset.theme === name));
+}
 
 // ========== DOWNLOAD CARD ==========
 (function initDlCard() {
