@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selamat Idul Fitri 1447 H</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1b40'/%3E%3Cdefs%3E%3Cmask id='m'%3E%3Ccircle cx='13' cy='16' r='10' fill='white'/%3E%3Ccircle cx='19' cy='12' r='8.5' fill='black'/%3E%3C/mask%3E%3C/defs%3E%3Ccircle cx='13' cy='16' r='10' fill='%23f5c842' mask='url(%23m)'/%3E%3Ccircle cx='27' cy='7' r='1.8' fill='%23f5c842' opacity='.9'/%3E%3Ccircle cx='25' cy='26' r='1.3' fill='%23f5c842' opacity='.7'/%3E%3Ccircle cx='4' cy='9' r='1' fill='%23f5c842' opacity='.6'/%3E%3Ccircle cx='28' cy='20' r='1' fill='%23f5c842' opacity='.5'/%3E%3C/svg%3E">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: #000; overflow-x: hidden; cursor: none; }
+
+    /* Custom cursor */
+    .cursor { position: fixed; width: 20px; height: 20px; border: 2px solid #f5c842; border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s; }
+    .cursor-dot { position: fixed; width: 6px; height: 6px; background: #f5c842; border-radius: 50%; pointer-events: none; z-index: 9999; }
+    .cursor.hovered { transform: scale(2); background: rgba(245,200,66,0.1); }
+
+    /* Starfield */
+    #stars-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0; }
+
+    /* Dusk overlay */
+    #dusk-overlay { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background: linear-gradient(180deg, #0d0300 0%, #3d1205 12%, #7a2e0a 28%, #c45520 48%, #e8803a 62%, #b05028 75%, #6b2050 87%, #2d1b4e 100%); }
+
+    /* Moon tint (orange sore hari) */
+    #moon-tint { position: absolute; inset: 0; border-radius: 50%; background: rgba(210,80,10,0.8); z-index: 3; pointer-events: none; }
+
+    /* Fireworks canvas */
+    #fireworks-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; pointer-events: none; }
+
+    /* ===================== HERO ===================== */
+    #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+
+    /* Sky gradient */
+    .sky-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #020817 0%, #0d1b40 40%, #1a1440 70%, #2d1b4e 85%, #1a0a2e 100%); }
+
+    /* Mosque silhouette */
+    .mosque-wrap { position: absolute; bottom: 0; left: 0; right: 0; z-index: 5; }
+    .mosque-svg { width: 100%; max-height: 340px; }
+
+    /* Moon */
+    .moon { position: absolute; top: 10%; right: 15%; width: 90px; height: 90px; z-index: 4; }
+    .moon-circle { width: 90px; height: 90px; background: radial-gradient(circle at 35% 35%, #ffffff, #e8eef5 60%, #c8d8e8); border-radius: 50%; box-shadow: 0 0 40px 15px rgba(220,235,255,0.4), 0 0 80px 30px rgba(200,220,255,0.15); animation: moonGlow 3s ease-in-out infinite; }
+    .moon-shadow { position: absolute; top: -5px; left: 12px; width: 90px; height: 90px; background: #000; border-radius: 50%; }
+    @keyframes moonGlow { 0%,100%{box-shadow:0 0 40px 15px rgba(220,235,255,0.4),0 0 80px 30px rgba(200,220,255,0.15);} 50%{box-shadow:0 0 60px 25px rgba(220,235,255,0.6),0 0 120px 50px rgba(200,220,255,0.25);} }
+
+    /* Lanterns */
+    .lantern-wrap { position: absolute; z-index: 6; }
+    .lantern { display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: swing 4s ease-in-out infinite; }
+    .lantern:nth-child(2) { animation-delay: -1.5s; animation-duration: 3.5s; }
+    .lantern-body { width: 28px; height: 45px; background: linear-gradient(135deg, #ff6b35, #f5a623, #ff4500); border-radius: 40% 40% 45% 45%; box-shadow: 0 0 15px rgba(255,107,53,0.8), inset 0 0 10px rgba(255,220,0,0.3); position: relative; overflow: hidden; }
+    .lantern-body::after { content:''; position:absolute; inset:0; background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 60%); border-radius: inherit; }
+    .lantern-top, .lantern-bot { width: 32px; height: 7px; background: #8B4513; border-radius: 3px; }
+    .lantern-string { width: 2px; height: 30px; background: #8B4513; }
+    .lantern-glow { width: 50px; height: 50px; background: radial-gradient(circle, rgba(255,140,0,0.4), transparent 70%); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); border-radius: 50%; animation: lanternFlicker 2s ease-in-out infinite; }
+    @keyframes swing { 0%,100%{transform:rotate(-8deg);} 50%{transform:rotate(8deg);} }
+    @keyframes lanternFlicker { 0%,100%{opacity:0.8;} 50%{opacity:1;} }
+    .lantern-line { position: absolute; top: 0; height: 2px; background: linear-gradient(90deg, transparent, #8B4513 20%, #8B4513 80%, transparent); }
+
+    /* Arabic text */
+    .arabic-text { font-family: 'Amiri', serif; font-size: clamp(2rem, 6vw, 4.5rem); color: #f5c842; text-shadow: 0 0 20px rgba(245,200,66,0.5); line-height: 1.4; }
+
+    /* Typewriter */
+    .typewriter { border-right: 3px solid #f5c842; white-space: nowrap; overflow: hidden; animation: blink 0.75s step-end infinite; }
+    @keyframes blink { 0%,100%{border-color:transparent;} 50%{border-color:#f5c842;} }
+
+    /* Scroll indicator */
+    .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 10; animation: bounceDown 2s ease-in-out infinite; }
+    .scroll-indicator span { display: block; width: 20px; height: 20px; border-right: 3px solid #f5c842; border-bottom: 3px solid #f5c842; transform: rotate(45deg); margin: -6px auto; opacity: 0; animation: arrowFade 2s ease-in-out infinite; }
+    .scroll-indicator span:nth-child(2){ animation-delay:0.2s; }
+    .scroll-indicator span:nth-child(3){ animation-delay:0.4s; }
+    @keyframes arrowFade { 0%{opacity:0;transform:rotate(45deg) translate(-5px,-5px);} 50%{opacity:1;} 100%{opacity:0;transform:rotate(45deg) translate(5px,5px);} }
+
+    /* ===================== SECTIONS ===================== */
+    section { position: relative; z-index: 10; }
+
+    /* Wishes section */
+    #wishes { background: transparent; padding: 100px 20px; }
+
+    /* Cards */
+    .wish-card { background: linear-gradient(135deg, rgba(245,200,66,0.05), rgba(255,107,53,0.05)); border: 1px solid rgba(245,200,66,0.2); border-radius: 20px; padding: 32px; transition: all 0.4s ease; backdrop-filter: blur(10px); }
+    .wish-card:hover { transform: translateY(-8px) scale(1.02); border-color: rgba(245,200,66,0.6); box-shadow: 0 20px 60px rgba(245,200,66,0.15), 0 0 0 1px rgba(245,200,66,0.1); }
+    .wish-card .icon { margin-bottom: 20px; }
+    .wish-card .icon svg { animation: iconFloat 3.5s ease-in-out infinite; filter: drop-shadow(0 0 8px rgba(245,200,66,0.45)); }
+    .wish-card:nth-child(2) .icon svg { animation-delay:-0.6s; }
+    .wish-card:nth-child(3) .icon svg { animation-delay:-1.2s; }
+    .wish-card:nth-child(4) .icon svg { animation-delay:-1.8s; }
+    .wish-card:nth-child(5) .icon svg { animation-delay:-2.4s; }
+    .wish-card:nth-child(6) .icon svg { animation-delay:-3s; }
+    @keyframes iconFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-7px) rotate(3deg);} }
+
+    /* Ornament divider */
+    .ornament { display: flex; align-items: center; gap: 16px; margin: 40px 0; }
+    .ornament-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,200,66,0.5), transparent); }
+    .ornament-diamond { width: 10px; height: 10px; background: #f5c842; transform: rotate(45deg); }
+
+    /* Greeting form */
+    #greeting { background: transparent; padding: 100px 20px; }
+    .form-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; color: white; padding: 14px 18px; width: 100%; font-family: 'Poppins', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; outline: none; }
+    .form-input:focus { border-color: #f5c842; box-shadow: 0 0 0 3px rgba(245,200,66,0.15); }
+    .form-input::placeholder { color: rgba(255,255,255,0.3); }
+    .btn-send { background: linear-gradient(135deg, #f5c842, #e8a800); color: #0a0a1a; font-weight: 700; padding: 14px 40px; border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: all 0.3s ease; position: relative; overflow: hidden; }
+    .btn-send::after { content:''; position:absolute; inset:0; background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent); opacity: 0; transition: opacity 0.3s; }
+    .btn-send:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(245,200,66,0.4); }
+    .btn-send:hover::after { opacity: 1; }
+    .btn-send:active { transform: scale(0.97); }
+
+    /* Preview card */
+    #preview-card { display: none; margin-top: 40px; background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(255,107,53,0.05)); border: 2px solid rgba(245,200,66,0.4); border-radius: 20px; padding: 32px; text-align: center; animation: fadeInUp 0.5s ease; }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+    /* Progress/countdown */
+    #countdown { background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(255,107,53,0.05)); border: 1px solid rgba(245,200,66,0.2); border-radius: 20px; padding: 32px; }
+    .count-box { background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 20px; min-width: 80px; }
+    .count-num { font-size: 2.5rem; font-weight: 700; color: #f5c842; line-height: 1; }
+    .count-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+    /* Floating particles */
+    .particle { position: fixed; pointer-events: none; border-radius: 50%; animation: particleFloat linear infinite; z-index: 2; }
+    @keyframes particleFloat { 0%{transform:translateY(100vh) rotate(0deg); opacity:0;} 10%{opacity:1;} 90%{opacity:1;} 100%{transform:translateY(-100px) rotate(720deg); opacity:0;} }
+
+    /* Reveal animation */
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-scale { opacity: 0; transform: scale(0.85); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+    /* Footer */
+    footer { background: transparent; border-top: 1px solid rgba(245,200,66,0.1); padding: 40px 20px; text-align: center; }
+
+    /* Mobile adjustments */
+    @media(max-width: 640px) {
+      .moon { width: 60px; height: 60px; top: 8%; right: 8%; }
+      .moon-circle, .moon-shadow { width: 60px; height: 60px; }
+      .lantern-body { width: 20px; height: 32px; }
+      .lantern-top, .lantern-bot { width: 24px; }
+      .mosque-svg { max-height: 260px; }
+      .mosque-wrap { bottom: 0; }
+    }
+
+    /* Download card */
+    #dl-card-wrap { width:100%; aspect-ratio:16/9; position:relative; overflow:hidden; border-radius:16px; border:1px solid rgba(245,200,66,0.3); }
+    #dl-card { width:100%; height:100%; position:relative; background:linear-gradient(180deg,#020817 0%,#0d1b40 40%,#1a1440 70%,#2d1b4e 100%); overflow:hidden; font-family:'Poppins',sans-serif; }
+    .dl-star { position:absolute; border-radius:50%; background:rgba(255,255,220,0.85); pointer-events:none; }
+    .dl-moon-wrap { position:absolute; top:8%; right:10%; width:80px; height:80px; }
+    .dl-moon-circle { width:80px; height:80px; background:radial-gradient(circle at 35% 35%,#fff,#e8eef5 60%,#c8d8e8); border-radius:50%; box-shadow:0 0 30px 10px rgba(220,235,255,0.35); }
+    .dl-moon-shadow { position:absolute; top:-4px; left:11px; width:80px; height:80px; background:#000; border-radius:50%; }
+    .dl-text-wrap { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px; z-index:5; }
+    .dl-arabic { font-family:'Amiri',serif; color:#f5c842; text-shadow:0 0 15px rgba(245,200,66,0.5); }
+    .dl-mosque { position:absolute; bottom:0; left:0; right:0; z-index:4; }
+    .btn-dl { background:linear-gradient(135deg,#f5c842,#e8a800); color:#0a0a1a; font-weight:700; padding:14px 40px; border-radius:50px; border:none; cursor:pointer; font-size:1rem; font-family:'Poppins',sans-serif; transition:all 0.3s ease; }
+    .btn-dl:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(245,200,66,0.4); }
+    .btn-dl:disabled { opacity:0.6; cursor:wait; }
+
+    /* Ripple */
+    .ripple { position: fixed; border-radius: 50%; border: 2px solid rgba(245,200,66,0.6); pointer-events: none; z-index: 999; animation: rippleOut 0.8s ease-out forwards; }
+    @keyframes rippleOut { from{width:0;height:0;opacity:1;transform:translate(-50%,-50%);} to{width:100px;height:100px;opacity:0;transform:translate(-50%,-50%);} }
+  </style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Starfield Canvas -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- Fireworks Canvas -->
+<canvas id="fireworks-canvas"></canvas>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero">
+  <div class="sky-bg"></div>
+  <div id="dusk-overlay"></div>
+  <canvas id="hero-stars" style="position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;width:100%;height:100%;"></canvas>
+
+  <!-- Moon -->
+  <div class="moon" id="moon">
+    <div id="moon-tint"></div>
+    <div class="moon-shadow" id="moon-shadow"></div>
+    <div class="moon-circle"></div>
+  </div>
+
+  <!-- Lanterns Left -->
+  <div class="lantern-wrap" style="top:5%; left:2%;">
+    <div style="position:relative;">
+      <div class="lantern-line" style="width:120px; left:14px;"></div>
+    </div>
+    <div style="display:flex; gap:40px; padding-top:2px;">
+      <div class="lantern">
+        <div class="lantern-string"></div>
+        <div class="lantern-top"></div>
+        <div class="lantern-body"></div>
+        <div class="lantern-bot"></div>
+        <div class="lantern-glow"></div>
+      </div>
+      <div class="lantern" style="animation-delay:-0.8s">
+        <div class="lantern-string" style="height:50px;"></div>
+        <div class="lantern-top"></div>
+        <div class="lantern-body" style="background:linear-gradient(135deg,#e040fb,#9c27b0,#7b1fa2);box-shadow:0 0 15px rgba(156,39,176,0.8);"></div>
+        <div class="lantern-bot"></div>
+        <div class="lantern-glow" style="background:radial-gradient(circle,rgba(156,39,176,0.4),transparent 70%);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lanterns Right -->
+  <div class="lantern-wrap" style="top:5%; right:2%;">
+    <div style="position:relative;">
+      <div class="lantern-line" style="width:120px; right:14px; left:auto;"></div>
+    </div>
+    <div style="display:flex; gap:40px; padding-top:2px;">
+      <div class="lantern" style="animation-delay:-2s">
+        <div class="lantern-string" style="height:55px;"></div>
+        <div class="lantern-top"></div>
+        <div class="lantern-body" style="background:linear-gradient(135deg,#26a69a,#00796b,#004d40);box-shadow:0 0 15px rgba(38,166,154,0.8);"></div>
+        <div class="lantern-bot"></div>
+        <div class="lantern-glow" style="background:radial-gradient(circle,rgba(38,166,154,0.4),transparent 70%);"></div>
+      </div>
+      <div class="lantern" style="animation-delay:-0.3s">
+        <div class="lantern-string"></div>
+        <div class="lantern-top"></div>
+        <div class="lantern-body"></div>
+        <div class="lantern-bot"></div>
+        <div class="lantern-glow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="relative z-10 text-center px-4 mt-8" id="hero-content">
+    <p class="arabic-text mb-4" id="arabic-greeting" style="opacity:0">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
+    <h1 class="text-white font-bold mb-3" style="font-size:clamp(1.6rem,5vw,3.5rem); opacity:0;" id="hero-title">
+      Selamat Hari Raya
+      <span style="color:#f5c842; display:block;">Idul Fitri 1447 H</span>
+    </h1>
+    <p class="text-amber-200 mb-8" style="font-size:clamp(0.9rem,2.5vw,1.2rem); opacity:0.8; opacity:0;" id="hero-sub">
+      Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin
+    </p>
+  </div>
+
+  <!-- Mosque SVG -->
+  <div class="mosque-wrap">
+    <svg class="mosque-svg" viewBox="0 0 1440 340" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <!-- Ground -->
+      <rect y="300" width="1440" height="40" fill="#0d1225"/>
+      <!-- Main building -->
+      <rect x="510" y="140" width="420" height="160" fill="#0d1225"/>
+      <!-- Main dome -->
+      <ellipse cx="720" cy="140" rx="130" ry="110" fill="#0d1225"/>
+      <!-- Inner dome detail -->
+      <ellipse cx="720" cy="140" rx="90"  ry="75"  fill="#080d1a"/>
+      <!-- Main dome top finial -->
+      <line x1="720" y1="30" x2="720" y2="8" stroke="#f5c842" stroke-width="3.5"/>
+      <polygon points="720,4 725,12 715,12" fill="#f5c842"/>
+      <!-- Side minarets left -->
+      <rect x="468" y="60" width="42" height="240" rx="4" fill="#0d1225"/>
+      <ellipse cx="489" cy="60" rx="30" ry="22" fill="#0d1225"/>
+      <ellipse cx="489" cy="60" rx="18" ry="12" fill="#080d1a"/>
+      <line x1="489" y1="38" x2="489" y2="18" stroke="#f5c842" stroke-width="2.5"/>
+      <polygon points="489,14 493,21 485,21" fill="#f5c842"/>
+      <!-- Side minarets right -->
+      <rect x="930" y="60" width="42" height="240" rx="4" fill="#0d1225"/>
+      <ellipse cx="951" cy="60" rx="30" ry="22" fill="#0d1225"/>
+      <ellipse cx="951" cy="60" rx="18" ry="12" fill="#080d1a"/>
+      <line x1="951" y1="38" x2="951" y2="18" stroke="#f5c842" stroke-width="2.5"/>
+      <polygon points="951,14 955,21 947,21" fill="#f5c842"/>
+      <!-- Outer minarets left -->
+      <rect x="310" y="120" width="30" height="180" rx="3" fill="#0d1225"/>
+      <ellipse cx="325" cy="120" rx="22" ry="16" fill="#0d1225"/>
+      <line x1="325" y1="104" x2="325" y2="88" stroke="#f5c842" stroke-width="2"/>
+      <polygon points="325,84 329,91 321,91" fill="#f5c842"/>
+      <!-- Outer minarets right -->
+      <rect x="1100" y="120" width="30" height="180" rx="3" fill="#0d1225"/>
+      <ellipse cx="1115" cy="120" rx="22" ry="16" fill="#0d1225"/>
+      <line x1="1115" y1="104" x2="1115" y2="88" stroke="#f5c842" stroke-width="2"/>
+      <polygon points="1115,84 1119,91 1111,91" fill="#f5c842"/>
+      <!-- Side small domes -->
+      <ellipse cx="600" cy="158" rx="55" ry="42" fill="#0d1225"/>
+      <ellipse cx="840" cy="158" rx="55" ry="42" fill="#0d1225"/>
+      <!-- Arched windows -->
+      <ellipse cx="648" cy="248" rx="22" ry="28" fill="rgba(245,200,66,0.12)"/>
+      <ellipse cx="720" cy="248" rx="22" ry="28" fill="rgba(245,200,66,0.12)"/>
+      <ellipse cx="792" cy="248" rx="22" ry="28" fill="rgba(245,200,66,0.12)"/>
+      <!-- Ambient glow at ground -->
+      <ellipse cx="720" cy="305" rx="420" ry="28" fill="rgba(245,200,66,0.08)"/>
+      <!-- Side buildings -->
+      <rect x="140" y="230" width="165" height="70" fill="#0a0f1e"/>
+      <rect x="1135" y="230" width="165" height="70" fill="#0a0f1e"/>
+      <!-- Edge fill -->
+      <rect x="0"    y="300" width="140"  height="40" fill="#080d1a"/>
+      <rect x="1300" y="300" width="140"  height="40" fill="#080d1a"/>
+    </svg>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" id="scrollIndicator">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+<!-- ==================== COUNTDOWN ==================== -->
+<section id="countdown-section" style="background:transparent; padding:60px 20px;">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="reveal ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <h2 class="reveal text-2xl font-bold text-amber-300 mb-4">Hari Raya Idul Fitri 2026</h2>
+    <p class="reveal text-gray-400 mb-2 text-sm">1 Syawal 1447 H — Sabtu, 21 Maret 2026</p>
+    <p class="reveal text-white text-base mb-8" style="transition-delay:0.1s">Sampai berjumpa di masjid dalam</p>
+    <div id="countdown" class="reveal">
+      <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <div class="count-box">
+          <div class="count-num" id="cnt-days">00</div>
+          <div class="count-label">HARI</div>
+        </div>
+        <div class="count-box">
+          <div class="count-num" id="cnt-hours">00</div>
+          <div class="count-label">JAM</div>
+        </div>
+        <div class="count-box">
+          <div class="count-num" id="cnt-mins">00</div>
+          <div class="count-label">MENIT</div>
+        </div>
+        <div class="count-box">
+          <div class="count-num" id="cnt-secs">00</div>
+          <div class="count-label">DETIK</div>
+        </div>
+      </div>
+      <p id="countdown-msg" class="mt-6 text-amber-300 font-semibold text-lg" style="display:none;"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WISHES ==================== -->
+<section id="wishes">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="reveal ornament">
+        <div class="ornament-line"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-line"></div>
+      </div>
+      <h2 class="reveal text-3xl md:text-4xl font-bold text-white mb-4">Ucapan <span style="color:#f5c842">Idul Fitri</span></h2>
+      <p class="reveal text-gray-400 text-sm md:text-base max-w-lg mx-auto">Semoga di hari yang fitri ini, hati kita bersih dan hubungan kita semakin erat.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px;">
+      <!-- Card 1: Moon -->
+      <div class="wish-card reveal">
+        <div class="icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><mask id="cm1"><circle cx="27" cy="31" r="21" fill="white"/><circle cx="37" cy="25" r="18" fill="black"/></mask></defs>
+            <circle cx="27" cy="31" r="21" fill="#f5c842" mask="url(#cm1)"/>
+            <circle cx="50" cy="11" r="2.8" fill="#f5c842" opacity="0.9"/>
+            <circle cx="47" cy="50" r="1.8" fill="#f5c842" opacity="0.7"/>
+            <circle cx="8"  cy="17" r="1.4" fill="#f5c842" opacity="0.6"/>
+            <circle cx="6"  cy="42" r="1"   fill="#f5c842" opacity="0.5"/>
+            <circle cx="54" cy="32" r="1.2" fill="#f5c842" opacity="0.6"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Taqabbalallah</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Semoga Allah menerima amal ibadah kita selama Ramadhan dan menjadikan kita hamba yang lebih baik.</p>
+      </div>
+
+      <!-- Card 2: Heart with rays -->
+      <div class="wish-card reveal" style="transition-delay:0.1s">
+        <div class="icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="30" y1="4"  x2="30" y2="11" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <line x1="51" y1="11" x2="46" y2="16" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <line x1="9"  y1="11" x2="14" y2="16" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <line x1="56" y1="33" x2="49" y2="33" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <line x1="4"  y1="33" x2="11" y2="33" stroke="#f5c842" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <path d="M30 51 C30 51 11 38 11 25 C11 18 16 13 22 13 C25.5 13 28.5 15 30 18 C31.5 15 34.5 13 38 13 C44 13 49 18 49 25 C49 38 30 51 30 51Z" fill="#f5c842"/>
+            <path d="M22 21 C20 23 19 26 20 29" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Maaf Lahir &amp; Batin</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Dengan sepenuh hati, kami memohon maaf atas segala kesalahan, baik yang disengaja maupun tidak.</p>
+      </div>
+
+      <!-- Card 3: Mosque -->
+      <div class="wish-card reveal" style="transition-delay:0.2s">
+        <div class="icon">
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body -->
+            <rect x="22" y="42" width="46" height="32" fill="#f5c842"/>
+            <!-- Main dome -->
+            <ellipse cx="45" cy="42" rx="23" ry="18" fill="#f5c842"/>
+            <ellipse cx="45" cy="42" rx="16" ry="11" fill="#e8a800"/>
+            <!-- Left minaret -->
+            <rect x="8"  y="28" width="11" height="46" rx="2" fill="#e8a800"/>
+            <ellipse cx="13.5" cy="28" rx="7.5" ry="6" fill="#f5c842"/>
+            <!-- Right minaret -->
+            <rect x="71" y="28" width="11" height="46" rx="2" fill="#e8a800"/>
+            <ellipse cx="76.5" cy="28" rx="7.5" ry="6" fill="#f5c842"/>
+            <!-- Side small domes -->
+            <ellipse cx="30" cy="50" rx="9" ry="7" fill="#e8a800"/>
+            <ellipse cx="60" cy="50" rx="9" ry="7" fill="#e8a800"/>
+            <!-- Arch windows -->
+            <ellipse cx="45" cy="64" rx="7" ry="9"  fill="rgba(0,0,0,0.25)"/>
+            <ellipse cx="30" cy="62" rx="4.5" ry="6" fill="rgba(0,0,0,0.2)"/>
+            <ellipse cx="60" cy="62" rx="4.5" ry="6" fill="rgba(0,0,0,0.2)"/>
+            <!-- Finials -->
+            <line x1="13.5" y1="12" x2="13.5" y2="22" stroke="#f5c842" stroke-width="2"   stroke-linecap="round"/>
+            <line x1="76.5" y1="12" x2="76.5" y2="22" stroke="#f5c842" stroke-width="2"   stroke-linecap="round"/>
+            <line x1="45"   y1="8"  x2="45"   y2="24" stroke="#fff9d6" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Ground -->
+            <rect x="4" y="73" width="82" height="4" rx="2" fill="#e8a800" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Berkah Idul Fitri</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Semoga hari raya ini membawa keberkahan, kebahagiaan, dan kedamaian untuk seluruh keluarga.</p>
+      </div>
+
+      <!-- Card 4: Water drop (suci) -->
+      <div class="wish-card reveal" style="transition-delay:0.3s">
+        <div class="icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 7 C30 7 13 29 13 40 C13 50 20.8 56 30 56 C39.2 56 47 50 47 40 C47 29 30 7 30 7Z" fill="#f5c842"/>
+            <ellipse cx="23" cy="34" rx="4" ry="8" fill="white" opacity="0.25" transform="rotate(-20 23 34)"/>
+            <circle cx="37" cy="44" r="3" fill="white" opacity="0.15"/>
+            <line x1="30" y1="3"  x2="30" y2="1"   stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+            <line x1="37" y1="5"  x2="39" y2="3"   stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+            <line x1="23" y1="5"  x2="21" y2="3"   stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+            <line x1="43" y1="10" x2="45" y2="8"   stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <line x1="17" y1="10" x2="15" y2="8"   stroke="#f5c842" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Kembali Suci</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Seperti bayi yang baru lahir, semoga kita semua kembali fitrah setelah sebulan penuh berpuasa.</p>
+      </div>
+
+      <!-- Card 5: Lantern pair -->
+      <div class="wish-card reveal" style="transition-delay:0.4s">
+        <div class="icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 5 Q30 9 43 5" stroke="#8B4513" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <line x1="17" y1="5"  x2="17" y2="13" stroke="#8B4513" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="43" y1="5"  x2="43" y2="13" stroke="#8B4513" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="12" y="11" width="10" height="3" rx="1.5" fill="#8B4513"/>
+            <rect x="38" y="11" width="10" height="3" rx="1.5" fill="#8B4513"/>
+            <ellipse cx="17" cy="29" rx="7" ry="13" fill="#ff6b35"/>
+            <ellipse cx="17" cy="29" rx="4" ry="9"  fill="#ff9a00" opacity="0.5"/>
+            <ellipse cx="43" cy="29" rx="7" ry="13" fill="#f5c842"/>
+            <ellipse cx="43" cy="29" rx="4" ry="9"  fill="#fff176" opacity="0.5"/>
+            <rect x="12" y="41" width="10" height="3" rx="1.5" fill="#8B4513"/>
+            <rect x="38" y="41" width="10" height="3" rx="1.5" fill="#8B4513"/>
+            <ellipse cx="17" cy="46" rx="10" ry="4" fill="#ff6b35" opacity="0.18"/>
+            <ellipse cx="43" cy="46" rx="10" ry="4" fill="#f5c842"  opacity="0.18"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Kebersamaan</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Semoga silaturahmi kita tetap terjaga dan kebersamaan keluarga selalu menjadi prioritas utama.</p>
+      </div>
+
+      <!-- Card 6: 8-point star -->
+      <div class="wish-card reveal" style="transition-delay:0.5s">
+        <div class="icon">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="30,6 33.8,20.8 47,13 39.2,26.2 54,30 39.2,33.8 47,47 33.8,39.2 30,54 26.2,39.2 13,47 20.8,33.8 6,30 20.8,26.2 13,13 26.2,20.8" fill="#f5c842"/>
+            <circle cx="30" cy="30" r="9"  fill="#e8a800"/>
+            <circle cx="30" cy="30" r="4"  fill="#fff9d6"/>
+            <circle cx="30" cy="30" r="1.5" fill="#f5c842"/>
+          </svg>
+        </div>
+        <h3 class="text-amber-300 font-semibold text-lg mb-2">Doa Terbaik</h3>
+        <p class="text-gray-300 text-sm leading-relaxed">Doa terbaik kami, semoga Allah senantiasa melimpahkan rahmat dan hidayah-Nya kepada kita semua.</p>
+      </div>
+    </div>
+
+    <div class="ornament reveal mt-16">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DOAS ==================== -->
+<section style="background:transparent; padding:80px 20px;">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="reveal text-3xl font-bold text-white mb-12">Doa <span style="color:#f5c842">Idul Fitri</span></h2>
+    <div class="reveal-scale" style="background:rgba(245,200,66,0.05); border:1px solid rgba(245,200,66,0.2); border-radius:24px; padding:40px 32px;">
+      <p class="arabic-text mb-8" style="font-size:clamp(1.5rem,4vw,2.5rem);">
+        تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ صَالِحَ الأَعْمَالِ
+      </p>
+      <p class="text-amber-200 italic mb-4 text-sm md:text-base">"Taqabbalallahu minna wa minkum shalihul a'mal"</p>
+      <p class="text-gray-300 text-sm md:text-base">"Semoga Allah menerima amal ibadah kami dan kalian semua."</p>
+    </div>
+
+    <div class="mt-8 reveal-scale" style="background:rgba(245,200,66,0.05); border:1px solid rgba(245,200,66,0.2); border-radius:24px; padding:32px; transition-delay:0.2s">
+      <p class="arabic-text mb-6" style="font-size:clamp(1.2rem,3vw,2rem);">
+        جَعَلَنَا اللهُ وَإِيَّاكُمْ مِنَ الْعَائِدِينَ وَالْفَائِزِينَ
+      </p>
+      <p class="text-amber-200 italic mb-4 text-sm md:text-base">"Ja'alanallahu wa iyyakum minal 'aidin wal faizin"</p>
+      <p class="text-gray-300 text-sm md:text-base">"Semoga Allah menjadikan kita semua orang-orang yang kembali (kepada fitrah) dan orang-orang yang menang."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== QUOTE ==================== -->
+<section id="greeting" style="padding:100px 20px;">
+  <div class="max-w-2xl mx-auto text-center">
+    <div class="reveal ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <div class="reveal-scale" style="position:relative; padding:48px 40px; background:linear-gradient(135deg,rgba(245,200,66,0.06),rgba(255,107,53,0.04)); border:1px solid rgba(245,200,66,0.25); border-radius:28px; margin-top:16px;">
+      <!-- Tanda kutip besar kiri -->
+      <span style="position:absolute; top:16px; left:24px; font-size:6rem; line-height:1; color:rgba(245,200,66,0.18); font-family:Georgia,serif; pointer-events:none;">&ldquo;</span>
+      <!-- Tanda kutip besar kanan -->
+      <span style="position:absolute; bottom:-8px; right:24px; font-size:6rem; line-height:1; color:rgba(245,200,66,0.18); font-family:Georgia,serif; pointer-events:none;">&rdquo;</span>
+
+      <p class="text-white leading-relaxed" style="font-size:clamp(1.1rem,3vw,1.5rem); font-style:italic; position:relative; z-index:1;">
+        Teruslah berbuat kebaikan, dan semoga bertemu di Idul Fitri di tahun mendatang.
+      </p>
+      <p class="text-amber-400 font-semibold mt-6" style="font-size:clamp(1rem,2.5vw,1.3rem); letter-spacing:0.05em;">Aamiin Ya Rabbal 'Alamin</p>
+      <div class="ornament" style="margin:24px 0 0;">
+        <div class="ornament-line"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DOWNLOAD CARD ==================== -->
+<section style="padding:80px 20px; background:transparent;">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="reveal ornament"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line"></div></div>
+      <h2 class="reveal text-3xl font-bold text-white mb-3 mt-2">Download <span style="color:#f5c842">Kartu Ucapan</span></h2>
+      <p class="reveal text-gray-400 text-sm">Buat kartu ucapan personal bergaya halaman utama, lalu download sebagai gambar</p>
+    </div>
+
+    <!-- Form -->
+    <div class="reveal" style="background:rgba(255,255,255,0.02);border:1px solid rgba(245,200,66,0.15);border-radius:24px;padding:32px;margin-bottom:32px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label class="text-amber-300 text-sm font-medium block mb-2">Dari</label>
+          <input type="text" id="dl-dari" class="form-input" placeholder="Nama kamu..." oninput="updateDlCard()" />
+        </div>
+        <div>
+          <label class="text-amber-300 text-sm font-medium block mb-2">Untuk</label>
+          <input type="text" id="dl-untuk" class="form-input" placeholder="Nama penerima..." oninput="updateDlCard()" />
+        </div>
+      </div>
+      <div style="margin-bottom:24px;">
+        <label class="text-amber-300 text-sm font-medium block mb-2">Pesan</label>
+        <textarea id="dl-pesan" class="form-input" rows="3" oninput="updateDlCard()">Selamat Hari Raya Idul Fitri 1447 H. Taqabbalallahu Minna Wa Minkum. Minal Aidin Wal Faizin, Mohon Maaf Lahir dan Batin.</textarea>
+      </div>
+      <button class="btn-dl w-full" id="btn-download" onclick="downloadCard()">⬇ Download Kartu Ucapan</button>
+    </div>
+
+    <!-- Preview -->
+    <p class="text-gray-500 text-xs text-center mb-3 reveal">Preview kartu</p>
+    <div class="reveal" id="dl-card-wrap">
+      <div id="dl-card">
+        <!-- Stars container -->
+        <div id="dl-stars" style="position:absolute;inset:0;z-index:1;"></div>
+
+        <!-- Moon -->
+        <div class="dl-moon-wrap" style="z-index:3;">
+          <div class="dl-moon-shadow"></div>
+          <div class="dl-moon-circle"></div>
+        </div>
+
+        <!-- Text overlay -->
+        <div class="dl-text-wrap">
+          <p class="dl-arabic" style="font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;">تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ</p>
+          <h2 style="color:#fff;font-weight:700;font-size:clamp(0.9rem,3vw,2rem);margin-bottom:6px;text-align:center;">Selamat Hari Raya Idul Fitri <span style="color:#f5c842;">1447 H</span></h2>
+          <p style="color:rgba(255,220,150,0.9);font-size:clamp(0.6rem,1.8vw,1rem);margin-bottom:16px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
+          <div style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:16px;"></div>
+          <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.55rem,1.5vw,0.9rem);text-align:center;max-width:70%;line-height:1.6;margin-bottom:14px;"></p>
+          <div style="display:flex;gap:32px;align-items:center;justify-content:center;">
+            <p id="dl-untuk-preview" style="color:#f5c842;font-size:clamp(0.5rem,1.3vw,0.8rem);font-weight:600;"></p>
+            <div style="width:1px;height:24px;background:rgba(245,200,66,0.4);"></div>
+            <p id="dl-dari-preview" style="color:rgba(255,255,255,0.6);font-size:clamp(0.5rem,1.3vw,0.8rem);"></p>
+          </div>
+        </div>
+
+        <!-- Mosque -->
+        <div class="dl-mosque">
+          <svg width="100%" viewBox="0 0 1440 180" fill="none" preserveAspectRatio="xMidYMax meet">
+            <rect y="155" width="1440" height="25" fill="#0d1225"/>
+            <rect x="560" y="85" width="320" height="70" fill="#0d1225"/>
+            <ellipse cx="720" cy="85" rx="100" ry="80" fill="#0d1225"/>
+            <ellipse cx="720" cy="85" rx="65" ry="50" fill="#080d1a"/>
+            <line x1="720" y1="5" x2="720" y2="14" stroke="#f5c842" stroke-width="2.5"/>
+            <polygon points="720,2 723,8 717,8" fill="#f5c842"/>
+            <rect x="476" y="45" width="38" height="110" rx="3" fill="#0d1225"/>
+            <ellipse cx="495" cy="45" rx="26" ry="18" fill="#0d1225"/>
+            <line x1="495" y1="27" x2="495" y2="16" stroke="#f5c842" stroke-width="2"/>
+            <polygon points="495,13 498,19 492,19" fill="#f5c842"/>
+            <rect x="926" y="45" width="38" height="110" rx="3" fill="#0d1225"/>
+            <ellipse cx="945" cy="45" rx="26" ry="18" fill="#0d1225"/>
+            <line x1="945" y1="27" x2="945" y2="16" stroke="#f5c842" stroke-width="2"/>
+            <polygon points="945,13 948,19 942,19" fill="#f5c842"/>
+            <ellipse cx="620" cy="100" rx="45" ry="34" fill="#0d1225"/>
+            <ellipse cx="820" cy="100" rx="45" ry="34" fill="#0d1225"/>
+            <ellipse cx="660" cy="135" rx="18" ry="22" fill="rgba(245,200,66,0.1)"/>
+            <ellipse cx="720" cy="135" rx="18" ry="22" fill="rgba(245,200,66,0.1)"/>
+            <ellipse cx="780" cy="135" rx="18" ry="22" fill="rgba(245,200,66,0.1)"/>
+            <ellipse cx="720" cy="158" rx="280" ry="18" fill="rgba(245,200,66,0.07)"/>
+            <rect x="200" y="130" width="130" height="25" fill="#0a0f1e"/>
+            <rect x="1110" y="130" width="130" height="25" fill="#0a0f1e"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="ornament" style="justify-content:center;">
+    <div class="ornament-line" style="max-width:100px;"></div>
+    <div class="ornament-diamond"></div>
+    <div class="ornament-line" style="max-width:100px;"></div>
+  </div>
+  <p class="arabic-text text-2xl my-4">عِيدٌ مُبَارَكٌ</p>
+  <p class="text-gray-500 text-sm">Selamat Hari Raya Idul Fitri 1447 H &bull; 2026 M</p>
+  <p class="text-gray-600 text-xs mt-2">Dibuat dengan ❤️ untuk semua umat Muslim</p>
+</footer>
+
+<script>
+// ========== CURSOR ==========
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursorDot');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursorDot.style.left = mx + 'px'; cursorDot.style.top = my + 'px'; });
+(function animateCursor() {
+  cx += (mx - cx) * 0.15; cy += (my - cy) * 0.15;
+  cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+  requestAnimationFrame(animateCursor);
+})();
+document.querySelectorAll('a, button, .wish-card, .form-input, textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+});
+
+// ========== STARFIELD ==========
+const starsCanvas = document.getElementById('stars-canvas');
+const sCtx = starsCanvas.getContext('2d');
+let stars = [];
+function resizeStars() {
+  starsCanvas.width = window.innerWidth;
+  starsCanvas.height = window.innerHeight;
+  stars = Array.from({length: 200}, () => ({
+    x: Math.random() * starsCanvas.width,
+    y: Math.random() * starsCanvas.height * 0.7,
+    r: Math.random() * 1.5 + 0.3,
+    a: Math.random(),
+    speed: Math.random() * 0.015 + 0.005,
+    offset: Math.random() * Math.PI * 2
+  }));
+}
+resizeStars();
+window.addEventListener('resize', resizeStars);
+
+// ========== HERO STARS (inside hero section, above sky-bg) ==========
+const heroStarsEl = document.getElementById('hero-stars');
+const hCtx = heroStarsEl.getContext('2d');
+let heroStarsList = [];
+function resizeHeroStars() {
+  heroStarsEl.width = heroStarsEl.offsetWidth;
+  heroStarsEl.height = heroStarsEl.offsetHeight;
+  heroStarsList = Array.from({length: 180}, () => ({
+    x: Math.random(),
+    y: Math.random() * 0.72,
+    r: Math.random() * 1.6 + 0.3,
+    speed: Math.random() * 0.015 + 0.005,
+    offset: Math.random() * Math.PI * 2
+  }));
+}
+resizeHeroStars();
+window.addEventListener('resize', resizeHeroStars);
+function drawHeroStars(t) {
+  hCtx.clearRect(0, 0, heroStarsEl.width, heroStarsEl.height);
+  heroStarsList.forEach(s => {
+    const alpha = 0.4 + 0.6 * Math.abs(Math.sin(t * s.speed + s.offset));
+    hCtx.beginPath();
+    hCtx.arc(s.x * heroStarsEl.width, s.y * heroStarsEl.height, s.r, 0, Math.PI * 2);
+    hCtx.fillStyle = `rgba(255,255,220,${alpha})`;
+    hCtx.fill();
+  });
+  requestAnimationFrame(drawHeroStars);
+}
+requestAnimationFrame(drawHeroStars);
+// ========== SHOOTING STARS CLASS (canvas-based, used inside drawStars) ==========
+let shootingStars_arr = [];
+class ShootingStar {
+  constructor() {
+    this.x = Math.random() * starsCanvas.width * 0.75 + starsCanvas.width * 0.05;
+    this.y = Math.random() * starsCanvas.height * 0.38;
+    const ang = Math.PI/6 + Math.random() * Math.PI/5;
+    const spd = Math.random() * 20 + 10;
+    this.vx = Math.cos(ang) * spd; this.vy = Math.sin(ang) * spd;
+    this.life = 1; this.decay = Math.random() * 0.013 + 0.008;
+    this.width = Math.random() * 2.5 + 1;
+    this.trail = []; this.maxTrail = 32; this.active = true;
+  }
+  update() {
+    this.trail.unshift({x:this.x, y:this.y});
+    if (this.trail.length > this.maxTrail) this.trail.pop();
+    this.x += this.vx; this.y += this.vy; this.vy += 0.12;
+    this.life -= this.decay;
+    if (this.life <= 0 || this.x > starsCanvas.width*1.1 || this.y > starsCanvas.height) this.active = false;
+  }
+  draw(ctx) {
+    if (!this.trail.length) return;
+    for (let i=0; i<this.trail.length-1; i++) {
+      const a = (1-i/this.trail.length)*this.life*0.95;
+      const w = this.width*(1-i/this.trail.length)*3;
+      ctx.beginPath(); ctx.moveTo(this.trail[i].x,this.trail[i].y); ctx.lineTo(this.trail[i+1].x,this.trail[i+1].y);
+      ctx.strokeStyle=`rgba(255,255,230,${a})`; ctx.lineWidth=Math.max(0.3,w); ctx.lineCap='round'; ctx.stroke();
+    }
+    if (this.active && this.life > 0.05) {
+      const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.width*6);
+      g.addColorStop(0,`rgba(255,255,255,${this.life})`);
+      g.addColorStop(0.4,`rgba(200,230,255,${this.life*.55})`);
+      g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.beginPath(); ctx.arc(this.x,this.y,this.width*6,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+    }
+  }
+}
+let nextShootTime = 0;
+function maybeSpawnShoot(now) {
+  if (now > nextShootTime) {
+    const n = Math.floor(Math.random()*4)+1; // 1-4 shooting stars at once
+    for(let i=0;i<n;i++) setTimeout(()=>shootingStars_arr.push(new ShootingStar()), i*300+Math.random()*200);
+    nextShootTime = now + 1200 + Math.random()*2200;
+  }
+}
+
+function drawStars(t) {
+  sCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+  stars.forEach(s => {
+    const alpha = 0.4 + 0.6 * Math.abs(Math.sin(t * s.speed + s.offset));
+    sCtx.beginPath();
+    sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    sCtx.fillStyle = `rgba(255,255,220,${alpha})`;
+    sCtx.fill();
+  });
+  // Shooting stars
+  maybeSpawnShoot(t);
+  shootingStars_arr = shootingStars_arr.filter(ss => ss.active);
+  shootingStars_arr.forEach(ss => { if(ss.active) ss.update(); ss.draw(sCtx); });
+  requestAnimationFrame(drawStars);
+}
+requestAnimationFrame(drawStars);
+
+// ========== RIPPLE ON CLICK ==========
+document.addEventListener('click', e => {
+  const r = document.createElement('div');
+  r.className = 'ripple';
+  r.style.left = e.clientX + 'px';
+  r.style.top = e.clientY + 'px';
+  document.body.appendChild(r);
+  setTimeout(() => r.remove(), 900);
+});
+
+// ========== FIREWORKS (Full Rewrite — Rockets + 5 Burst Types + Trails) ==========
+const fwCanvas = document.getElementById('fireworks-canvas');
+const fwCtx = fwCanvas.getContext('2d');
+fwCanvas.width = window.innerWidth; fwCanvas.height = window.innerHeight;
+window.addEventListener('resize', () => { fwCanvas.width = window.innerWidth; fwCanvas.height = window.innerHeight; });
+
+const FW_PALETTES = [
+  ['255,200,66','255,241,118','255,215,0'],
+  ['255,107,53','255,143,101','255,179,71'],
+  ['224,64,251','206,147,216','248,187,208'],
+  ['38,166,154','128,203,196','178,223,219'],
+  ['239,83,80','239,154,154','255,205,210'],
+  ['66,165,245','144,202,249','187,222,251'],
+  ['255,255,255','245,245,245','180,220,255'],
+  ['102,187,106','165,214,167','200,230,201'],
+];
+
+class FWRocket {
+  constructor(tx, ty) {
+    this.x = tx + (Math.random()-0.5)*80;
+    this.y = fwCanvas.height + 5;
+    this.tx = tx; this.ty = ty;
+    const dx=this.tx-this.x, dy=this.ty-this.y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    const spd=15+Math.random()*7;
+    this.vx=(dx/dist)*spd; this.vy=(dy/dist)*spd;
+    this.trail=[]; this.exploded=false;
+    this.pal=FW_PALETTES[Math.floor(Math.random()*FW_PALETTES.length)];
+    this.type=Math.floor(Math.random()*5);
+  }
+  update() {
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>20) this.trail.shift();
+    this.x+=this.vx; this.y+=this.vy; this.vy+=0.22;
+    if(this.vy>=0||this.y<=this.ty){ this.exploded=true; fwBurst(this.x,this.y,this.pal,this.type); }
+  }
+  draw() {
+    for(let i=0;i<this.trail.length-1;i++){
+      const a=(i/this.trail.length)*0.9;
+      fwCtx.beginPath(); fwCtx.moveTo(this.trail[i].x,this.trail[i].y); fwCtx.lineTo(this.trail[i+1].x,this.trail[i+1].y);
+      fwCtx.strokeStyle=`rgba(255,200,100,${a})`; fwCtx.lineWidth=2.5; fwCtx.lineCap='round'; fwCtx.stroke();
+    }
+    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,3.5,0,Math.PI*2);
+    fwCtx.fillStyle='rgba(255,255,220,0.95)'; fwCtx.fill();
+  }
+}
+
+class FWParticle {
+  constructor(x,y,vx,vy,color,r,ptype){
+    this.x=x; this.y=y; this.vx=vx; this.vy=vy;
+    this.color=color; this.r=r; this.life=1; this.ptype=ptype;
+    this.decay=ptype==='willow'?0.005+Math.random()*.007:ptype==='glitter'?0.022+Math.random()*.025:0.009+Math.random()*.011;
+    this.trail=[{x,y}]; this.maxTrail=ptype==='willow'?24:ptype==='normal'?10:4;
+    this.doTwinkle=Math.random()<0.4; this.twinkle=Math.random()*Math.PI*2; this.twinkleSpd=Math.random()*.3+.1;
+  }
+  update(){
+    this.trail.push({x:this.x,y:this.y});
+    if(this.trail.length>this.maxTrail) this.trail.shift();
+    this.x+=this.vx; this.y+=this.vy;
+    this.vy+=this.ptype==='willow'?0.14:0.09;
+    this.vx*=0.984; this.vy*=0.984;
+    this.life-=this.decay; this.twinkle+=this.twinkleSpd;
+  }
+  draw(){
+    const tw=this.doTwinkle?0.5+0.5*Math.sin(this.twinkle):1;
+    const a=this.life*tw; if(a<=0.01) return;
+    const col=this.color;
+    for(let i=0;i<this.trail.length-1;i++){
+      const ta=(i/this.trail.length)*a*0.7;
+      const tw2=(i/this.trail.length)*this.r*1.8;
+      fwCtx.beginPath(); fwCtx.moveTo(this.trail[i].x,this.trail[i].y); fwCtx.lineTo(this.trail[i+1].x,this.trail[i+1].y);
+      fwCtx.strokeStyle=col.replace(',1)',`,${ta})`); fwCtx.lineWidth=Math.max(0.4,tw2); fwCtx.lineCap='round'; fwCtx.stroke();
+    }
+    const grd=fwCtx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r*4);
+    grd.addColorStop(0,col.replace(',1)',`,${a})`));
+    grd.addColorStop(0.5,col.replace(',1)',`,${a*.4})`));
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,this.r*4,0,Math.PI*2); fwCtx.fillStyle=grd; fwCtx.fill();
+    fwCtx.beginPath(); fwCtx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    fwCtx.fillStyle=`rgba(255,255,255,${a*.9})`; fwCtx.fill();
+  }
+}
+
+let fwRockets=[], fwParticles=[], fwFlashes=[];
+function fwBurst(x,y,pal,type){
+  fwFlashes.push({x,y,r:0,maxR:110+Math.random()*90,life:1,col:pal[0]});
+  if(type===0){ // Classic sphere
+    for(let i=0;i<170;i++){
+      const a=Math.random()*Math.PI*2, s=Math.random()*6+2;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2.5+1,'normal'));
+    }
+  } else if(type===1){ // Ring + inner glitter
+    for(let i=0;i<110;i++){
+      const a=(i/110)*Math.PI*2, s=7.5+Math.random()*2.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2+1,'ring'));
+    }
+    for(let i=0;i<70;i++){
+      const a=(i/70)*Math.PI*2, s=3.5+Math.random()*1.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[0]},1)`,1,'glitter'));
+    }
+  } else if(type===2){ // Willow (droopy long trails)
+    for(let i=0;i<200;i++){
+      const a=Math.random()*Math.PI*2, s=Math.random()*9+2;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,(Math.sin(a)*s)-2.5,`rgba(${pal[i%pal.length]},1)`,Math.random()*1.5+.5,'willow'));
+    }
+  } else if(type===3){ // Chrysanthemum — dense + glitter rain
+    for(let i=0;i<210;i++){
+      const a=(i/210)*Math.PI*2+Math.random()*.3, s=2+Math.random()*6.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[i%pal.length]},1)`,Math.random()*2+.5,'normal'));
+    }
+    for(let i=0;i<90;i++){
+      const a=Math.random()*Math.PI*2, s=Math.random()*10;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,'rgba(255,255,200,1)',1.5,'glitter'));
+    }
+  } else { // Double ring burst
+    for(let i=0;i<130;i++){
+      const a=(i/130)*Math.PI*2, s=9+Math.random()*1.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[0]},1)`,Math.random()*2+1,'normal'));
+    }
+    for(let i=0;i<90;i++){
+      const a=(i/90)*Math.PI*2, s=4.5+Math.random()*1.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,`rgba(${pal[1%pal.length]},1)`,Math.random()*1.5+.5,'glitter'));
+    }
+    for(let i=0;i<50;i++){
+      const a=Math.random()*Math.PI*2, s=Math.random()*3.5;
+      fwParticles.push(new FWParticle(x,y,Math.cos(a)*s,Math.sin(a)*s,'rgba(255,255,255,1)',1.2,'glitter'));
+    }
+  }
+}
+
+function spawnFirework(x, y){ fwRockets.push(new FWRocket(x, y)); }
+
+function animateFW(){
+  fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);
+  fwFlashes=fwFlashes.filter(f=>f.life>0);
+  fwFlashes.forEach(f=>{
+    f.r+=(f.maxR-f.r)*.28; f.life-=0.07;
+    const g=fwCtx.createRadialGradient(f.x,f.y,0,f.x,f.y,f.r);
+    g.addColorStop(0,`rgba(255,255,255,${f.life*.75})`);
+    g.addColorStop(0.3,`rgba(${f.col},${f.life*.35})`);
+    g.addColorStop(1,'rgba(0,0,0,0)');
+    fwCtx.beginPath(); fwCtx.arc(f.x,f.y,f.r,0,Math.PI*2); fwCtx.fillStyle=g; fwCtx.fill();
+  });
+  fwRockets=fwRockets.filter(r=>!r.exploded);
+  fwRockets.forEach(r=>{ r.update(); if(!r.exploded) r.draw(); });
+  fwParticles=fwParticles.filter(p=>p.life>0);
+  fwParticles.forEach(p=>{ p.update(); p.draw(); });
+  requestAnimationFrame(animateFW);
+}
+animateFW();
+
+function autoFirework(){
+  const n=Math.floor(Math.random()*4)+2;
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    spawnFirework(Math.random()*window.innerWidth*.75+window.innerWidth*.125, Math.random()*window.innerHeight*.48+window.innerHeight*.04);
+  }, i*380+Math.random()*220);
+}
+// Meriah di 3 detik pertama saja
+setTimeout(()=>autoFirework(), 500);
+setTimeout(()=>autoFirework(), 1200);
+setTimeout(()=>autoFirework(), 2000);
+setTimeout(()=>autoFirework(), 2800);
+
+// Klik hanya aktif kalau di hero (scroll = 0)
+document.addEventListener('click', e=>{
+  if(window.scrollY > window.innerHeight * 0.5) return;
+  if(!e.target.closest('input,textarea,button,a')) spawnFirework(e.clientX, e.clientY);
+});
+
+// ========== FLOATING PARTICLES ==========
+const fpColors = ['rgba(245,200,66,0.7)','rgba(255,107,53,0.6)','rgba(255,255,255,0.5)','rgba(156,39,176,0.5)'];
+function createParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 6 + 2;
+  p.style.cssText = `width:${size}px;height:${size}px;background:${fpColors[Math.floor(Math.random()*fpColors.length)]};left:${Math.random()*100}vw;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;`;
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 25000);
+}
+setInterval(createParticle, 1200);
+
+// ========== HERO ANIMATIONS ==========
+window.addEventListener('load', () => {
+  // GSAP hero sequence
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── Animasi sore menuju malam ──
+  const startY = window.innerHeight * 0.58;
+  gsap.set('#moon', { y: startY, x: 80, scale: 1.9, opacity: 1 });
+  gsap.set('#moon-shadow', { backgroundColor: '#000' });
+
+  const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
+
+  // Bulan terbit: naik dari horizon ke posisi malam
+  tl.to('#moon', { y: 0, x: 0, scale: 1, duration: 4.5 }, 0)
+    // Langit bertransisi dari sore ke malam
+    .to('#dusk-overlay', { opacity: 0, duration: 4, ease: 'power1.in' }, 0.4)
+    // Warna shadow bulan berubah dari hangat ke biru malam
+    .to('#moon-shadow', { backgroundColor: '#000', duration: 3.5 }, 0.8)
+    // Tint oranye bulan memudar
+    .to('#moon-tint', { opacity: 0, duration: 3, ease: 'power2.in' }, 1.2)
+    // Bintang muncul saat langit gelap
+    .to('#stars-canvas', { opacity: 1, duration: 2.5, ease: 'power2.in' }, 2)
+    .to('#hero-stars',   { opacity: 1, duration: 2.5, ease: 'power2.in' }, 2)
+    // Teks hero muncul setelah malam tiba
+    .fromTo('#arabic-greeting', { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, 4)
+    .fromTo('#hero-title',      { opacity: 0, y: 20  }, { opacity: 1, y: 0, duration: 1,   ease: 'power2.out' }, 4.5)
+    .fromTo('#hero-sub',        { opacity: 0 },         { opacity: 0.85, duration: 1,       ease: 'power2.out' }, 5)
+
+  gsap.to('#hero-content', {
+    y: 60, opacity: 0,
+    scrollTrigger: { trigger: '#hero', start: '40% top', end: 'bottom top', scrub: true }
+  });
+  gsap.to('.mosque-wrap', {
+    y: 40,
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+  });
+});
+
+// ========== SCROLL REVEAL ==========
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = parseFloat(entry.target.style.transitionDelay) || 0;
+      setTimeout(() => entry.target.classList.add('visible'), delay * 1000);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+revealEls.forEach(el => observer.observe(el));
+
+// ========== COUNTDOWN ==========
+const eidDate = new Date('2026-03-21T07:00:00+07:00');
+function updateCountdown() {
+  const now = new Date();
+  const diff = eidDate - now;
+  const msg = document.getElementById('countdown-msg');
+  if (diff <= 0) {
+    document.querySelector('#countdown > div').style.display = 'none';
+    msg.style.display = 'block';
+    const daysPast = Math.floor(-diff / (1000*60*60*24));
+    if (daysPast === 0) msg.textContent = '🎉 Selamat Hari Raya Idul Fitri! Minal Aidin Wal Faizin!';
+    else msg.textContent = `Idul Fitri sudah berlalu ${daysPast} hari yang lalu. Semoga amal ibadah kita diterima! 🌙`;
+    return;
+  }
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const s = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('cnt-days').textContent = String(d).padStart(2,'0');
+  document.getElementById('cnt-hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cnt-mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cnt-secs').textContent = String(s).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ========== GREETING CARD ==========
+function generateCard() {
+  const sender = document.getElementById('sender-name').value.trim() || 'Seseorang';
+  const receiver = document.getElementById('receiver-name').value.trim() || 'Sahabatku';
+  const msg = document.getElementById('custom-msg').value.trim();
+  document.getElementById('card-to').textContent = `Untuk: ${receiver}`;
+  document.getElementById('card-msg').textContent = msg;
+  document.getElementById('card-from').textContent = `— Dari: ${sender} —`;
+  const card = document.getElementById('preview-card');
+  card.style.display = 'block';
+  card.scrollIntoView({behavior:'smooth', block:'nearest'});
+  // Confetti burst
+  for(let i=0;i<5;i++) setTimeout(() => spawnFirework(Math.random()*window.innerWidth, Math.random()*window.innerHeight*0.8), i*200);
+}
+
+function shareCard() {
+  const sender = document.getElementById('sender-name').value.trim() || 'Seseorang';
+  const receiver = document.getElementById('receiver-name').value.trim() || 'Sahabatku';
+  const msg = document.getElementById('custom-msg').value.trim();
+  const text = `🌙 Selamat Idul Fitri 1447 H 🌙\n\nUntuk: ${receiver}\n\n${msg}\n\n— Dari: ${sender}\n\nTaqabbalallahu Minna Wa Minkum ✨`;
+  if (navigator.share) {
+    navigator.share({ title: 'Ucapan Idul Fitri', text });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => alert('Teks ucapan sudah disalin! Silakan bagikan. 🎉'));
+  } else {
+    alert('Bagikan ucapan ini:\n\n' + text);
+  }
+}
+
+// ========== HIDE CURSOR ON TOUCH ==========
+window.addEventListener('touchstart', () => { cursor.style.display='none'; cursorDot.style.display='none'; }, {once:true});
+
+// ========== DOWNLOAD CARD ==========
+(function initDlCard() {
+  // Generate static stars
+  const container = document.getElementById('dl-stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'dl-star';
+    const size = Math.random() * 2.2 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*65}%;opacity:${Math.random()*0.5+0.4};`;
+    container.appendChild(s);
+  }
+  updateDlCard();
+})();
+
+function updateDlCard() {
+  const dari  = document.getElementById('dl-dari').value.trim();
+  const untuk = document.getElementById('dl-untuk').value.trim();
+  const pesan = document.getElementById('dl-pesan').value.trim();
+  document.getElementById('dl-pesan-preview').textContent  = pesan;
+  document.getElementById('dl-untuk-preview').textContent  = untuk  ? `Untuk: ${untuk}` : '';
+  document.getElementById('dl-dari-preview').textContent   = dari   ? `Dari: ${dari}`   : '';
+}
+
+async function downloadCard() {
+  const btn  = document.getElementById('btn-download');
+  const card = document.getElementById('dl-card');
+  btn.disabled = true;
+  btn.textContent = 'Memproses...';
+  try {
+    // Temporarily set card to fixed size for capture
+    const origW = card.style.width, origH = card.style.height;
+    card.style.width  = '1080px';
+    card.style.height = '607px';
+    const canvas = await html2canvas(card, {
+      scale: 2, useCORS: true, allowTaint: true,
+      width: 1080, height: 607, backgroundColor: null
+    });
+    card.style.width = origW;
+    card.style.height = origH;
+    const link = document.createElement('a');
+    const dari  = document.getElementById('dl-dari').value.trim() || 'ucapan';
+    link.download = `idul-fitri-${dari.replace(/\s+/g,'-')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) { alert('Gagal mendownload, coba lagi.'); }
+  btn.disabled = false;
+  btn.textContent = '⬇ Download Kartu Ucapan';
+}
+
+// ========== SCROLL HIDE INDICATOR ==========
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) document.getElementById('scrollIndicator').style.opacity = '0';
+  else document.getElementById('scrollIndicator').style.opacity = '1';
+});
+</script>
+</body>
+</html>
