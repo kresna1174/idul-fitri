@@ -551,15 +551,9 @@
 
     <!-- Form -->
     <div class="reveal" style="background:rgba(255,255,255,0.02);border:1px solid rgba(245,200,66,0.15);border-radius:24px;padding:32px;margin-bottom:32px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-        <div>
-          <label class="text-amber-300 text-sm font-medium block mb-2">Dari</label>
-          <input type="text" id="dl-dari" class="form-input" placeholder="Nama kamu..." oninput="updateDlCard()" />
-        </div>
-        <div>
-          <label class="text-amber-300 text-sm font-medium block mb-2">Untuk</label>
-          <input type="text" id="dl-untuk" class="form-input" placeholder="Nama penerima..." oninput="updateDlCard()" />
-        </div>
+      <div style="margin-bottom:16px;">
+        <label class="text-amber-300 text-sm font-medium block mb-2">Dari</label>
+        <input type="text" id="dl-dari" class="form-input" placeholder="Nama kamu..." oninput="updateDlCard()" />
       </div>
       <div style="margin-bottom:24px;">
         <label class="text-amber-300 text-sm font-medium block mb-2">Pesan</label>
@@ -588,11 +582,7 @@
           <p style="color:rgba(255,220,150,0.9);font-size:clamp(0.6rem,1.8vw,1rem);margin-bottom:16px;text-align:center;">Minal Aidin Wal Faizin &bull; Mohon Maaf Lahir &amp; Batin</p>
           <div style="width:60%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,200,66,0.5),transparent);margin-bottom:16px;"></div>
           <p id="dl-pesan-preview" style="color:rgba(255,255,255,0.85);font-size:clamp(0.55rem,1.5vw,0.9rem);text-align:center;max-width:70%;line-height:1.6;margin-bottom:14px;"></p>
-          <div style="display:flex;gap:32px;align-items:center;justify-content:center;">
-            <p id="dl-untuk-preview" style="color:#f5c842;font-size:clamp(0.5rem,1.3vw,0.8rem);font-weight:600;"></p>
-            <div style="width:1px;height:24px;background:rgba(245,200,66,0.4);"></div>
-            <p id="dl-dari-preview" style="color:rgba(255,255,255,0.6);font-size:clamp(0.5rem,1.3vw,0.8rem);"></p>
-          </div>
+          <p id="dl-dari-preview" style="color:#f5c842;font-size:clamp(0.7rem,2vw,1.1rem);font-weight:700;letter-spacing:0.04em;"></p>
         </div>
 
         <!-- Mosque -->
@@ -1082,11 +1072,9 @@ window.addEventListener('touchstart', () => { cursor.style.display='none'; curso
 
 function updateDlCard() {
   const dari  = document.getElementById('dl-dari').value.trim();
-  const untuk = document.getElementById('dl-untuk').value.trim();
   const pesan = document.getElementById('dl-pesan').value.trim();
-  document.getElementById('dl-pesan-preview').textContent  = pesan;
-  document.getElementById('dl-untuk-preview').textContent  = untuk  ? `Untuk: ${untuk}` : '';
-  document.getElementById('dl-dari-preview').textContent   = dari   ? `Dari: ${dari}`   : '';
+  document.getElementById('dl-pesan-preview').textContent = pesan;
+  document.getElementById('dl-dari-preview').textContent  = dari;
 }
 
 async function downloadCard() {
